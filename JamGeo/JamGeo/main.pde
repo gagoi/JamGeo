@@ -1,6 +1,6 @@
 void init() {
     
-  Golem GolemList[] = {new Golem(Gres), new Golem(Gres)};
+  Golem GolemList[] = {golemsList[0], golemsList[1]};
   
   GolemList[0].upDamage(1);
   GolemList[0].setMultiple(2);

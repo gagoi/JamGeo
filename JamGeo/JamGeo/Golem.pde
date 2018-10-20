@@ -8,20 +8,34 @@ private enum Type {
     METAMORPHIQUE;
 }
 
-public Golem
-    Gres = new Golem(Type.SEDIMENTAIRE, "Gres", 1, 3, 1), 
-    Gypse = new Golem(Type.SEDIMENTAIRE, "Gypse", 2, 7, 3), 
-    Bauxite = new Golem(Type.SEDIMENTAIRE, "Bauxite", 3, 12, 6), 
-    Celestine = new Golem(Type.SEDIMENTAIRE, "Celestine", 4, 20, 8), 
-    Granite    = new Golem(Type.MAGMATIQUE, "Granite", 1, 1, 3), 
-    Diorite = new Golem(Type.MAGMATIQUE, "Diorite", 2, 2, 4), 
-    Basalte = new Golem(Type.MAGMATIQUE, "Basalte", 3, 5, 6), 
-    Granodiorite = new Golem(Type.MAGMATIQUE, "Granodiorite", 4, 7, 6), 
-    Shiste = new Golem(Type.METAMORPHIQUE, "Shiste", 1, 2, 2), 
-    Zeolite = new Golem (Type.METAMORPHIQUE, "Zeolite", 2, 5, 5), 
-    Amphibolite = new Golem(Type.METAMORPHIQUE, "Amphibolite", 3, 9, 9), 
-    Granulite  = new Golem  (Type.METAMORPHIQUE, "Granulite", 4, 13, 13);
-    
+public static final int GRES = 0;
+public static final int GYSPE = 1;
+public static final int BAUXITE = 2;
+public static final int CELESTINE = 3;
+public static final int GRANITE = 4;
+public static final int DIORITE = 5;
+public static final int BASALTE = 6;
+public static final int GRANODIORITE = 7;
+public static final int SHISPE = 8;
+public static final int ZEOLITE = 9;
+public static final int AMPHIBOLITE = 10;
+public static final int GRANULITE = 11;
+
+public Golem[] golemsList = {
+    new Golem(Type.SEDIMENTAIRE, "Gres", 1, 3, 1), 
+    new Golem(Type.SEDIMENTAIRE, "Gypse", 2, 7, 3), 
+    new Golem(Type.SEDIMENTAIRE, "Bauxite", 3, 12, 6), 
+    new Golem(Type.SEDIMENTAIRE, "Celestine", 4, 20, 8), 
+    new Golem(Type.MAGMATIQUE, "Granite", 1, 1, 3), 
+    new Golem(Type.MAGMATIQUE, "Diorite", 2, 2, 4), 
+    new Golem(Type.MAGMATIQUE, "Basalte", 3, 5, 6), 
+    new Golem(Type.MAGMATIQUE, "Granodiorite", 4, 7, 6), 
+    new Golem(Type.METAMORPHIQUE, "Shiste", 1, 2, 2), 
+    new Golem (Type.METAMORPHIQUE, "Zeolite", 2, 5, 5), 
+    new Golem(Type.METAMORPHIQUE, "Amphibolite", 3, 9, 9), 
+    new Golem  (Type.METAMORPHIQUE, "Granulite", 4, 13, 13)
+};
+
 public class Golem extends Card {
 
     private Type type;
@@ -41,7 +55,7 @@ public class Golem extends Card {
     private int multipleAttack = 1;
     private int poison;
     
-    private ArrayList<MagicCard> equipements; 
+    //private ArrayList<MagicCard> equipements; 
 
 
     private Golem(Type t, String name, int lvl, int hp, int dmg) {
@@ -196,7 +210,7 @@ public class Golem extends Card {
     public void upPoison(int up) {
         this.poison += up;
     }
-    
+    /*
     public void addEquipement(MagicCard c) {
         this.equipements.add(c);
         HashMap<Stat, Integer> equipement = c.getEquipementStat();
@@ -230,7 +244,7 @@ public class Golem extends Card {
             this.equipements.remove(i);
         }
     }
-    
+    */
     
     public int getAttack() {
         return (getDamage() + getUpDamage()) * getMultiple();
