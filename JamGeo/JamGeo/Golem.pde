@@ -1,5 +1,23 @@
 
 public class Card {
+    
+    protected int level;
+    
+    public Card(int level) {
+        this.level = level;
+    }
+    
+    public int getLevel() {
+        return this.level;
+    }
+    
+    public void setLevel(int lvl) {
+        this.level = lvl;
+    }
+    
+    public void upLevel(int up) {
+        this.level += up;
+    }
 }
 
 private enum Type {
@@ -40,7 +58,6 @@ public class Golem extends Card {
 
     private Type type;
     private String name;
-    private int level;
     private int maxLife;
     private int life;
     private int damage;
@@ -55,10 +72,11 @@ public class Golem extends Card {
     private int multipleAttack = 1;
     private int poison;
     
-    //private ArrayList<MagicCard> equipements; 
+    private ArrayList<Equipement> equipements = new ArrayList(); 
 
 
     private Golem(Type t, String name, int lvl, int hp, int dmg) {
+        super(lvl);
         this.type = t;
         this.name = name;
         this.level = lvl;
@@ -80,18 +98,6 @@ public class Golem extends Card {
     
     public Type getType() {
         return this.type;
-    }
-
-    public int getLevel() {
-        return this.level;
-    }
-    
-    public void setLevel(int lvl) {
-        this.level = lvl;
-    }
-    
-    public void upLevel(int up) {
-        this.level += up;
     }
 
     public int getMaxLife() {
@@ -245,6 +251,43 @@ public class Golem extends Card {
         }
     }
     */
+    
+    public void addEquipement(Equipement e) {
+        equipements.add(e);
+        switch(e.stat) {
+            case LEVEL:
+            	upLevel(e.getNumber());
+            	break;
+            case LIFE:
+            	upLife(e.getNumber());
+                break;
+            case HEAL:
+            	setLife(e.getNumber());
+                break;
+            case DAMAGE:
+            	upDamage(e.getNumber());
+                break;
+            case THORN:
+            	upThorn(e.getNumber());
+                break;
+            case SHIELD:
+            	upMaxShield(e.getNumber());
+                break;
+            case TAUNT:
+            	setTaunt(e.getNumber());
+                break;
+            case MULTIPLE:
+            	upMultiple(e.getNumber());
+                break;
+            case POISON:
+            	upPoison(e.getNumber());
+                break;
+        }
+    }
+    
+    public void removeEquipement() {
+     	equipements.clear();
+    }
     
     public int getAttack() {
         return (getDamage() + getUpDamage()) * getMultiple();

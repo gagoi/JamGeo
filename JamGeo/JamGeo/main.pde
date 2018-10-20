@@ -1,6 +1,7 @@
 void init() {
     
   Golem GolemList[] = {golemsList[0], golemsList[1]};
+  MagicCard MCList[] = {magicCardsList[ESHIELD2], magicCardsList[EMAXLIFE3]};
   
   GolemList[0].upDamage(1);
   GolemList[0].setMultiple(2);
@@ -26,7 +27,15 @@ void init() {
   }
   
   println(GolemList[0]);
+  println(GolemList[1] + "\n");
+  
+  ((Equipement)MCList[0]).affect(GolemList[0]);
+  ((Equipement)MCList[1]).affect(GolemList[1]);
+  
+  println(GolemList[0]);
   println(GolemList[1]);
+  
+  
 }
 
 void affichage(){
