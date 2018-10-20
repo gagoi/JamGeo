@@ -65,9 +65,9 @@ void draw() {
     case START :
         color(0);
         image(p1.isGolemReady() ? buttonValidBackground : buttonUnvalidBackground, but_golem_1);
-        image(isG2Valid ? buttonValidBackground : buttonUnvalidBackground, but_golem_2);
-        image(isD1Valid ? buttonValidBackground : buttonUnvalidBackground, but_deck_1);
-        image(isD2Valid ? buttonValidBackground : buttonUnvalidBackground, but_deck_2);
+        image(p2.isGolemReady() ? buttonValidBackground : buttonUnvalidBackground, but_golem_2);
+        image(p1.isDeckReady() ? buttonValidBackground : buttonUnvalidBackground, but_deck_1);
+        image(p2.isDeckReady() ? buttonValidBackground : buttonUnvalidBackground, but_deck_2);
         image(buttonBackground, but_start_game);
         fill(255, 255, 255);
         write("Select Golems (P1)", but_golem_1);
