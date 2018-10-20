@@ -20,7 +20,7 @@ public class Card {
     }
 }
 
-private enum Type {
+public enum Type {
     SEDIMENTAIRE, 
     MAGMATIQUE, 
     METAMORPHIQUE;
@@ -216,56 +216,15 @@ public class Golem extends Card {
     public void upPoison(int up) {
         this.poison += up;
     }
-    /*
-    public void addEquipement(MagicCard c) {
-        this.equipements.add(c);
-        HashMap<Stat, Integer> equipement = c.getEquipementStat();
-        for (Stat k : equipement.keySet()) {
-            upLevel(equipement.getOrDefault(Stat.LEVEL, 0));
-            upLife(equipement.getOrDefault(Stat.LIFE, 0));
-            setLife(equipement.getOrDefault(Stat.HEAL, getLife()));
-            upDamage(equipement.getOrDefault(Stat.DAMAGE, 0));
-            upThorn(equipement.getOrDefault(Stat.THORN, 0));
-            upMaxShield(equipement.getOrDefault(Stat.SHIELD, 0));
-            setTaunt(equipement.getOrDefault(Stat.TAUNT, getTaunt()));
-            upMultiple(equipement.getOrDefault(Stat.MULTIPLE, 0));
-            upPoison(equipement.getOrDefault(Stat.POISON, 0));
-        }
-    }
-    
-    public void removeEquipements() {
-        for(int i = 0; i < this.equipements.size(); i++) {
-            HashMap<Stat, Integer> map = this.equipements.get(i).getEquipementStat();
-                for (Stat k : map.keySet()) {
-                    upLevel(-map.getOrDefault(Stat.LEVEL, 0));
-                    upLife(-map.getOrDefault(Stat.LIFE, 0));
-            		setLife(-map.getOrDefault(Stat.HEAL, getLife()));
-                    upDamage(-map.getOrDefault(Stat.DAMAGE, 0));
-                    upThorn(-map.getOrDefault(Stat.THORN, 0));
-                    upMaxShield(-map.getOrDefault(Stat.SHIELD, 0));
-                    setTaunt(-map.getOrDefault(Stat.TAUNT, getTaunt()));
-                    upMultiple(-map.getOrDefault(Stat.MULTIPLE, 0));
-                    upPoison(-map.getOrDefault(Stat.POISON, 0));
-                }
-            this.equipements.remove(i);
-        }
-    }
-    */
     
     public void addEquipement(Equipement e) {
         equipements.add(e);
         switch(e.stat) {
-            case LEVEL:
-            	upLevel(e.getNumber());
-            	break;
             case LIFE:
             	upLife(e.getNumber());
                 break;
-            case HEAL:
-            	setLife(e.getNumber());
-                break;
             case DAMAGE:
-            	upDamage(e.getNumber());
+                upDamage(e.getNumber());
                 break;
             case THORN:
             	upThorn(e.getNumber());
@@ -279,9 +238,8 @@ public class Golem extends Card {
             case MULTIPLE:
             	upMultiple(e.getNumber());
                 break;
-            case POISON:
-            	upPoison(e.getNumber());
-                break;
+            default:
+               break;
         }
     }
     
