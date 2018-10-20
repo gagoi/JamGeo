@@ -250,7 +250,10 @@ public MagicCard[] magicCardsList = {
     new Equipement(5, Stat.THORN, 6),
     new Equipement(2, Stat.TAUNT, 3),
     new Equipement(3, Stat.TAUNT, 4),
-    new Equipement(5, Stat.TAUNT, 6),
+    new Equipement(5, Stat.TAUNT, -1),
+    new Equipement(2, Stat.MULTIPLE, 2),
+    new Equipement(5, Stat.MULTIPLE, 3),
+    new Equipement(9, Stat.MULTIPLE, 4),
     new Heal(4, 10),
     new Taunt(1, 1),
     new Taunt(2, 2),
@@ -263,5 +266,5 @@ public Field[] fieldsList = {
     new Field(4, (Equipement)magicCardsList[EMAXLIFE5], Type.SEDIMENTAIRE),
     new Field(4, (Equipement)magicCardsList[EMAXLIFE5], Type.SEDIMENTAIRE),
     new Field(4, (Equipement)magicCardsList[EMAXLIFE5], Type.SEDIMENTAIRE),
-}
+};
 //30 cartes a faire

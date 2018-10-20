@@ -236,7 +236,7 @@ public class Golem extends Card {
             	setTaunt(e.getNumber());
                 break;
             case MULTIPLE:
-            	upMultiple(e.getNumber());
+            	setMultiple(e.getNumber());
                 break;
             default:
                break;
