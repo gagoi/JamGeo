@@ -1,30 +1,32 @@
 void init() {
-  Monster MonsterList[] = {new Monster(Gres), new Monster(Gres)};
+    
+  Golem GolemList[] = {new Golem(Gres), new Golem(Gres)};
   
-  MonsterList[0].upDamage(3);
-  MonsterList[0].upMaxShield(2);
-  MonsterList[1].upMaxShield(2);
-  MonsterList[1].upThorn(3);
+  GolemList[0].upDamage(1);
+  GolemList[0].setMultiple(2);
+  GolemList[0].upMaxShield(2);
+  GolemList[1].upMaxShield(2);
+  GolemList[1].upThorn(2);
   
-  println(MonsterList[0]);
-  println(MonsterList[1] + "\n");
-  switch(fight(MonsterList[0], MonsterList[1])) {
+  println(GolemList[0]);
+  println(GolemList[1] + "\n");
+  switch(fight(GolemList[0], GolemList[1])) {
       case -1:
-      	MonsterList[0] = null;
+      	GolemList[0] = null;
       	break;
       case 0:
           break;
       case 1:
-          MonsterList[1] = null;
+          GolemList[1] = null;
           break;
       case 2:
-          MonsterList[0] = null;
-          MonsterList[1] = null;
+          GolemList[0] = null;
+          GolemList[1] = null;
           break;
   }
   
-  println(MonsterList[0]);
-  println(MonsterList[1]);
+  println(GolemList[0]);
+  println(GolemList[1]);
 }
 
 void affichage(){
