@@ -18,6 +18,12 @@ public class Player {
         	g[i] = new Golem(golemsList[sg[i]]);
         this.golemReady = true;
     }
+    
+    public void setCards(int[] sc, int[] fields) {
+        for (int i = 0; i < sc.length; ++i);
+            //sc[i] = new Golem(golemsList[sc[i]]);
+        this.deckReady = true;
+    }
 
 	public void setDeckReady(boolean deckReady) {
 		this.deckReady = deckReady;

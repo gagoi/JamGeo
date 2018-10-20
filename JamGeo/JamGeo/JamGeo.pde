@@ -4,19 +4,18 @@ private enum State {
 
 color WHITE = color(255);
 
-
-
 State state = State.START;
+int mouseScroll;
 
 Player p1, p2;
 
 PImage buttonBackground, buttonUnvalidBackground, buttonValidBackground;
 int[] but_close, but_golem_1, but_golem_2, but_deck_1, but_deck_2, but_start_game, 
     but_clear_selection, but_valid_selection;
-int[][] but_golems_list;
+int[][] but_golems_list, but_cards_list, but_fields_list;
 
-int[] selected_golems = new int[4];
-int ct_selected_golems;
+int[] selected_golems = new int[4], selected_cards = new int[10], selected_fields = new int[2];
+int ct_selected_golems, ct_selected_cards, ct_selected_fields;
 
 void setup() {
     fullScreen();
@@ -38,6 +37,8 @@ void setup() {
     but_valid_selection = new int[]{10, 70, 50, 50};
 
     but_golems_list = new int[golemsList.length][4];
+    but_cards_list = new int[magicCardsList.length][4];
+    but_fields_list = new int[fieldsList.length][4];
 
     for (int i = 0; i < golemsList.length; i++) {
         int y = i / 4;
@@ -48,8 +49,34 @@ void setup() {
         but_golems_list[i][3] = 150;
     }
 
+    for (int i = 0; i < magicCardsList.length; i++) {
+        int y = i / 5;
+        int x = i % 5;
+
+        but_cards_list[i][0] = 100 + x * 250;
+        but_cards_list[i][1] = 300 + y * 130;
+        but_cards_list[i][2] = 150;
+        but_cards_list[i][3] = 100;
+    }
+
+    for (int i = 0; i < fieldsList.length; i++) {
+        int y = i / 5;
+        int x = i % 5;
+
+        but_fields_list[i][0] = 100 + x * 250;
+        but_fields_list[i][1] = but_cards_list[magicCardsList.length-1][1] + y * 130;
+        but_fields_list[i][2] = 150;
+        but_fields_list[i][3] = 100;
+    }
+
     for (int i = 0; i < selected_golems.length; ++i)
         selected_golems[i] = -1;
+
+    for (int i = 0; i < selected_cards.length; ++i)
+        selected_cards[i] = -1;
+
+    for (int i = 0; i < selected_fields.length; ++i)
+        selected_fields[i] = -1;
 
     init();
 }
@@ -84,8 +111,10 @@ void draw() {
         drawSelectionGolemsMenu();
         break;
     case DECK_P1 :
+        drawSelectionCardsMenu();
         break;
     case DECK_P2 :
+        drawSelectionCardsMenu();
         break;
     case TURN_P1 :
         break;
@@ -96,6 +125,12 @@ void draw() {
     }
 }
 
+void mouseWheel(MouseEvent event) {
+    int e = event.getCount();
+    if (mouseScroll > - width / 2 && e == 1 ||mouseScroll < - width / 2 + but_cards_list[magicCardsList.length-1][1] && e == -1)
+        mouseScroll -= e*8;
+}
+
 void mousePressed() {
     if (isIn(but_close))
         exit();
@@ -103,18 +138,27 @@ void mousePressed() {
     case START :
         if (isIn(but_golem_1))
             state = State.GOLEM_P1;
-        if (isIn(but_golem_2))
+        else if (isIn(but_golem_2))
             state = State.GOLEM_P2;
+        else if (isIn(but_deck_1)) {
+            state = State.DECK_P1;
+            mouseScroll = 0;
+        } else if (isIn(but_deck_2)) {
+            state = State.DECK_P2;
+            mouseScroll = 0;
+        }
         break;
     case GOLEM_P1 :
-		validSeletionGolems(p1);
+        validSelectionGolems(p1);
         break;
     case GOLEM_P2 :
-        validSeletionGolems(p2);
+        validSelectionGolems(p2);
         break;
     case DECK_P1 :
+        validSelectionCards(p1);
         break;
     case DECK_P2 :
+        validSelectionCards(p2);
         break;
     case TURN_P1 :
         break;
@@ -156,19 +200,48 @@ void drawSelectionGolemsMenu() {
         rect(but_golems_list[i]);
     }
 }
+void drawSelectionCardsMenu() {
+    fill(color(0, 255, 255));    
+    rect(but_clear_selection);
+    fill(color(255, 0, 255));    
+    rect(but_valid_selection);
+    fill(WHITE);
+    write("CLEAR", but_clear_selection);
+    write("VALID", but_valid_selection);
 
-void validSeletionGolems(Player p) {
+    for (int i = 0; i < magicCardsList.length; i++) {
+        for (int j = 0; j < selected_cards.length; j++)
+            if (selected_cards[j] == i) {
+                fill(WHITE);
+                rect(but_cards_list[i][0]-2, but_cards_list[i][1]-2 + mouseScroll, but_cards_list[i][2]+4, but_cards_list[i][3]+4);
+            }
+        fill(color(125, 0, 125));
+        rect(but_cards_list[i], mouseScroll);
+    }
+
+    for (int i = 0; i < fieldsList.length; i++) {
+        for (int j = 0; j < selected_fields.length; j++)
+            if (selected_fields[j] == i) {
+                fill(WHITE);
+                rect(but_fields_list[i][0]-2, but_fields_list[i][1]-2 + mouseScroll, but_fields_list[i][2]+4, but_fields_list[i][3]+4);
+            }
+        fill(color(125, 125, 0));
+        rect(but_fields_list[i], mouseScroll);
+    }
+}
+
+void validSelectionGolems(Player p) {
     if (isIn(but_clear_selection)) {
         for (int i = 0; i < selected_golems.length; i++)
             selected_golems[i] = -1;
         ct_selected_golems = 0;
     } else if (isIn(but_valid_selection)) {
         if (ct_selected_golems == selected_golems.length) {
-        	p.setGolems(selected_golems);
-        	 for (int i = 0; i < selected_golems.length; i++)
-            selected_golems[i] = -1;
-        ct_selected_golems = 0;
-        	state = State.START;
+            p.setGolems(selected_golems);
+            for (int i = 0; i < selected_golems.length; i++)
+                selected_golems[i] = -1;
+            ct_selected_golems = 0;
+            state = State.START;
         }
     } else {
         for (int i = 0; i < golemsList.length; ++i) {
@@ -184,8 +257,55 @@ void validSeletionGolems(Player p) {
     }
 }
 
+void validSelectionCards(Player p) {
+    if (isIn(but_clear_selection)) {
+        for (int i = 0; i < selected_fields.length; i++)
+            selected_fields[i] = -1;
+        for (int i = 0; i < selected_cards.length; i++)
+            selected_cards[i] = -1;
+        ct_selected_cards = 0;
+        ct_selected_fields = 0;
+    } else if (isIn(but_valid_selection)) {
+        if (ct_selected_cards == selected_cards.length && ct_selected_fields == selected_fields.length) {
+            p.setCards(selected_cards, selected_fields);
+            for (int i = 0; i < selected_cards.length; i++)
+                selected_cards[i] = -1;
+            for (int i = 0; i < selected_fields.length; i++)
+                selected_fields[i] = -1;
+            ct_selected_cards = 0;
+            ct_selected_fields = 0;
+            state = State.START;
+        }
+    } else {
+        for (int i = 0; i < magicCardsList.length; ++i) {
+            if (isIn(but_cards_list[i], mouseScroll)) {
+                boolean isInTab = false;
+                for (int j = 0; j < selected_cards.length; j++)
+                    isInTab = isInTab || selected_cards[j] == i;
+                if (!isInTab && ct_selected_cards < selected_cards.length) {
+                    selected_cards[ct_selected_cards++] = i;
+                }
+            }
+        }
+        for (int i = 0; i < fieldsList.length; ++i) {
+            if (isIn(but_fields_list[i], mouseScroll)) {
+                boolean isInTab = false;
+                for (int j = 0; j < selected_fields.length; j++)
+                    isInTab = isInTab || selected_fields[j] == i;
+                if (!isInTab && ct_selected_fields < selected_fields.length) {
+                    selected_fields[ct_selected_fields++] = i;
+                }
+            }
+        }
+    }
+}
+
 void rect(int[] box) {
     rect(box[0], box[1], box[2], box[3]);
+}
+
+void rect(int[] box, int scroll) {
+    rect(box[0], box[1] + scroll, box[2], box[3]);
 }
 
 void image(PImage img, int[] box) {
@@ -199,6 +319,10 @@ void write(String txt, int[] box) {
 
 boolean isIn(int[] box) {
     return isIn(mouseX, mouseY, box);
+}
+
+boolean isIn(int[] box, int offset) {
+    return isIn(mouseX, mouseY - offset, box);
 }
 
 boolean isIn(int x, int y, int[] box) {
