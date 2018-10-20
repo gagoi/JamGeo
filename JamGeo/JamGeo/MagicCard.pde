@@ -1,4 +1,4 @@
-
+/*
 public enum Stat {
     LEVEL,
     HEAL,
@@ -19,13 +19,12 @@ private enum MagicType {
 
 Golem[] empty;
 HashMap<Stat, Integer> emptyStats;
-HashMap<Stat, Integer> shield2 = new HashMap<Stat, Integer>();
+HashMap<Stat, Integer> shield2 = new HashMap();
 shield2.put(Stat.SHIELD, new Integer(2));
 
+MagicCard EquipementShield2 = new MagicCard(MagicType.STAT_MODIFICATION, 1, empty, empty, null, null, emptyStats, shield2);
 
-MagicCard EquipementShield2 = new MagicCard(MagicType.STAT_MODIFICATION, 1, empty, empty, null, emptyStats, shield2);
-
-public abstract class MagicCard extends Card {
+public class MagicCard extends Card {
     
     private int level;
     private MagicType type;
@@ -80,4 +79,4 @@ public abstract class MagicCard extends Card {
     }
     
     //public abstract void effect(Object...o);
-}
+}*/
