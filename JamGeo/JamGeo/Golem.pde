@@ -1,4 +1,7 @@
 
+public class Card {
+}
+
 private enum Type {
     SEDIMENTAIRE, 
     MAGMATIQUE, 
@@ -19,7 +22,7 @@ public Golem
     Amphibolite = new Golem(Type.METAMORPHIQUE, "Amphibolite", 3, 9, 9), 
     Granulite  = new Golem  (Type.METAMORPHIQUE, "Granulite", 4, 13, 13);
     
-public class Golem {
+public class Golem extends Card {
 
     private Type type;
     private String name;
@@ -31,12 +34,14 @@ public class Golem {
     private int thorn;
     private int maxShield;
     private int shield;
-    private boolean taunt;
+    private int taunt;
     
     private int up_life;
     private int up_damage;
     private int multipleAttack = 1;
     private int poison;
+    
+    private ArrayList<MagicCard> equipements; 
 
 
     private Golem(Type t, String name, int lvl, int hp, int dmg) {
@@ -82,6 +87,10 @@ public class Golem {
     public void setMaxLife(int max) {
         this.maxLife = max;
     }
+    
+    public void upMaxLife(int up) {
+        this.maxLife += up;
+    }
 
     public int getLife() {
         return this.life;
@@ -92,6 +101,11 @@ public class Golem {
         	this.life = getMaxLife();
         else
         	this.life = life;
+    }
+
+    public void upLife(int up) {
+        upMaxLife(up);
+        this.life += up;
     }
 
 	//damage n'a pas de setter, adder
@@ -137,20 +151,12 @@ public class Golem {
             this.shield += up;
     }
     
-    public boolean getTaunt() {
+    public int getTaunt() {
         return this.taunt;
     }
     
-    public void setTaunt(boolean t) {
+    public void setTaunt(int t) {
         this.taunt = t;
-    }
-
-    public int getUpLife() {
-        return this.up_life;
-    }
-
-    public void upLife(int up) {
-        this.up_life += up;
     }
 
     public int getUpDamage() {
@@ -191,6 +197,39 @@ public class Golem {
         this.poison += up;
     }
     
+    public void addEquipement(MagicCard c) {
+        this.equipements.add(c);
+        HashMap<Stat, Integer> equipement = c.getEquipementStat();
+        for (Stat k : equipement.keySet()) {
+            upLevel(equipement.getOrDefault(Stat.LEVEL, 0));
+            upLife(equipement.getOrDefault(Stat.LIFE, 0));
+            setLife(equipement.getOrDefault(Stat.HEAL, getLife()));
+            upDamage(equipement.getOrDefault(Stat.DAMAGE, 0));
+            upThorn(equipement.getOrDefault(Stat.THORN, 0));
+            upMaxShield(equipement.getOrDefault(Stat.SHIELD, 0));
+            setTaunt(equipement.getOrDefault(Stat.TAUNT, getTaunt()));
+            upMultiple(equipement.getOrDefault(Stat.MULTIPLE, 0));
+            upPoison(equipement.getOrDefault(Stat.POISON, 0));
+        }
+    }
+    
+    public void removeEquipements() {
+        for(int i = 0; i < this.equipements.size(); i++) {
+            HashMap<Stat, Integer> map = this.equipements.get(i).getEquipementStat();
+                for (Stat k : map.keySet()) {
+                    upLevel(-map.getOrDefault(Stat.LEVEL, 0));
+                    upLife(-map.getOrDefault(Stat.LIFE, 0));
+            		setLife(-map.getOrDefault(Stat.HEAL, getLife()));
+                    upDamage(-map.getOrDefault(Stat.DAMAGE, 0));
+                    upThorn(-map.getOrDefault(Stat.THORN, 0));
+                    upMaxShield(-map.getOrDefault(Stat.SHIELD, 0));
+                    setTaunt(-map.getOrDefault(Stat.TAUNT, getTaunt()));
+                    upMultiple(-map.getOrDefault(Stat.MULTIPLE, 0));
+                    upPoison(-map.getOrDefault(Stat.POISON, 0));
+                }
+            this.equipements.remove(i);
+        }
+    }
     
     
     public int getAttack() {
