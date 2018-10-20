@@ -1,7 +1,7 @@
 void setup() {
-  init();
+    init();
 }
 
 void draw() {
-  affichage();
+    affichage();
 }
