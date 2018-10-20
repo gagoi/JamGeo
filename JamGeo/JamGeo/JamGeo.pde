@@ -20,14 +20,14 @@ int ct_selected_golems;
 
 void setup() {
     fullScreen();
-    
+
     p1 = new Player("Joueur 1");
     p2 = new Player("Joueur 2");
 
     buttonBackground = loadImage("resources/textures/button.png");
     buttonValidBackground = loadImage("resources/textures/buttonValid.png");
     buttonUnvalidBackground = loadImage("resources/textures/buttonUnvalid.png");
-    
+
     but_close = new int[]{width-60, 10, 50, 50};
     but_golem_1 = new int[]{100, 600, 200, 100};
     but_golem_2 = new int[]{350, 600, 200, 100};
@@ -36,7 +36,7 @@ void setup() {
     but_deck_2 = new int[]{1100, 600, 200, 100};
     but_clear_selection = new int[]{10, 10, 50, 50};
     but_valid_selection = new int[]{10, 70, 50, 50};
-    
+
     but_golems_list = new int[golemsList.length][4];
 
     for (int i = 0; i < golemsList.length; i++) {
@@ -78,41 +78,10 @@ void draw() {
         fill(0);
         break;
     case GOLEM_P1 :
-
-        fill(color(0, 255, 255));	
-        rect(but_clear_selection);
-        fill(color(255, 0, 255));    
-        rect(but_valid_selection);
-        fill(WHITE);
-        write("CLEAR", but_clear_selection);
-        write("VALID", but_valid_selection);
-
-        for (int i = 0; i < golemsList.length; ++i) {
-            int y = i / 4;
-            int x = i % 4;
-
-            for (int j = 0; j < selected_golems.length; j++) {
-                if (selected_golems[j] == i) {
-                    fill(255);
-                    rect(but_golems_list[i][0]-2, but_golems_list[i][1]-2, but_golems_list[i][2]+4, but_golems_list[i][3]+4);
-                }
-            }
-
-            switch (y) {
-            case 0 :
-                fill(color(0, 255, 0));
-                break;
-            case 1 :
-                fill(color(255, 0, 0));
-                break;
-            case 2 :
-                fill(color(0, 0, 255));
-                break;
-            }
-            rect(but_golems_list[i]);
-        }
+        drawSelectionGolemsMenu();
         break;
     case GOLEM_P2 :
+        drawSelectionGolemsMenu();
         break;
     case DECK_P1 :
         break;
@@ -134,26 +103,14 @@ void mousePressed() {
     case START :
         if (isIn(but_golem_1))
             state = State.GOLEM_P1;
+        if (isIn(but_golem_2))
+            state = State.GOLEM_P2;
         break;
     case GOLEM_P1 :
-        if (isIn(but_clear_selection)) {
-            for (int i = 0; i < selected_golems.length; i++)
-            	selected_golems[i] = -1;
-            ct_selected_golems = 0;
-        } else {
-            for (int i = 0; i < golemsList.length; ++i) {
-                if (isIn(but_golems_list[i])) {
-                    boolean isInTab = false;
-                    for (int j = 0; j < selected_golems.length; j++)
-                        isInTab = isInTab || selected_golems[j] == i;
-                    if (!isInTab && ct_selected_golems < selected_golems.length) {
-                        selected_golems[ct_selected_golems++] = i;
-                    }
-                }
-            }
-        }
+		validSeletionGolems(p1);
         break;
     case GOLEM_P2 :
+        validSeletionGolems(p2);
         break;
     case DECK_P1 :
         break;
@@ -165,6 +122,65 @@ void mousePressed() {
         break;
     case END :
         break;
+    }
+}
+
+void drawSelectionGolemsMenu() {
+    fill(color(0, 255, 255));    
+    rect(but_clear_selection);
+    fill(color(255, 0, 255));    
+    rect(but_valid_selection);
+    fill(WHITE);
+    write("CLEAR", but_clear_selection);
+    write("VALID", but_valid_selection);
+
+    for (int i = 0; i < golemsList.length; ++i) {
+        int y = i / 4;
+        for (int j = 0; j < selected_golems.length; j++)
+            if (selected_golems[j] == i) {
+                fill(255);
+                rect(but_golems_list[i][0]-2, but_golems_list[i][1]-2, but_golems_list[i][2]+4, but_golems_list[i][3]+4);
+            }
+
+        switch (y) {
+        case 0 :
+            fill(color(0, 255, 0));
+            break;
+        case 1 :
+            fill(color(255, 0, 0));
+            break;
+        case 2 :
+            fill(color(0, 0, 255));
+            break;
+        }
+        rect(but_golems_list[i]);
+    }
+}
+
+void validSeletionGolems(Player p) {
+    if (isIn(but_clear_selection)) {
+        for (int i = 0; i < selected_golems.length; i++)
+            selected_golems[i] = -1;
+        ct_selected_golems = 0;
+    } else if (isIn(but_valid_selection)) {
+        if (ct_selected_golems == selected_golems.length) {
+        	p.setGolems(selected_golems);
+        	 for (int i = 0; i < selected_golems.length; i++)
+            selected_golems[i] = -1;
+        ct_selected_golems = 0;
+        	state = State.START;
+        }
+    } else {
+        for (int i = 0; i < golemsList.length; ++i) {
+            if (isIn(but_golems_list[i])) {
+                boolean isInTab = false;
+                for (int j = 0; j < selected_golems.length; j++)
+                    isInTab = isInTab || selected_golems[j] == i;
+                if (!isInTab && ct_selected_golems < selected_golems.length) {
+                    selected_golems[ct_selected_golems++] = i;
+                }
+            }
+        }
     }
 }
 

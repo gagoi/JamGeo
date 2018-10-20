@@ -13,12 +13,11 @@ public class Player {
         return this.name;
     }
 
-    public void chooseGolems() {
+    public void setGolems(int[] sg) {
+        for (int i = 0; i < sg.length; ++i)
+        	g[i] = new Golem(golemsList[sg[i]]);
+        this.golemReady = true;
     }
-
-	public void setGolemReady(boolean golemReady) {
-		this.golemReady = golemReady;
-	}
 
 	public void setDeckReady(boolean deckReady) {
 		this.deckReady = deckReady;
