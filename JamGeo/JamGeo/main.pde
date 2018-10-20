@@ -2,8 +2,8 @@ void init() {
     
   Golem GolemList[] = {new Golem(golemsList[0]), new Golem(golemsList[1])};
   //MagicCard MCList[] = {new MagicCard(magicCardsList[HEAL10]), magicCardsList[EMAXLIFE3]};
-  MagicCard MCHeal = (MagicCard)new Heal((Heal)magicCardsList[HEAL10]);
-  MagicCard MCField = (MagicCard)new Field((Field)magicCardsList[0]);
+  //MagicCard MCHeal = (MagicCard)new Heal((Heal)magicCardsList[HEAL10]);
+  //MagicCard MCField = (MagicCard)new Field((Field)magicCardsList[0]);
   
   GolemList[0].upDamage(1);
   GolemList[0].setMultiple(2);
