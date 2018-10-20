@@ -23,6 +23,11 @@ void setup() {
 
     p1 = new Player("Joueur 1");
     p2 = new Player("Joueur 2");
+    
+    p1.setGolems(new int[]{0, 1, 6, 11});
+    p2.setGolems(new int[]{4, 5, 2, 7});
+    p1.setCards(new int[]{2, 5, 8, 9, 13, 16, 17, 20, 24, 25}, new int[]{0, 2});
+    p2.setCards(new int[]{26, 29, 31, 34, 38, 40, 42, 11, 20}, new int[]{1, 5});
 
 	gameCanvas = createGraphics(1920, 1080);
 
