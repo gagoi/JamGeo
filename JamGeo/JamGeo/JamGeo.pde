@@ -10,6 +10,7 @@ int mouseScroll;
 Player p1, p2;
 
 PImage buttonBackground, buttonUnvalidBackground, buttonValidBackground;
+PGraphics gameCanvas;
 int[] but_close, but_golem_1, but_golem_2, but_deck_1, but_deck_2, but_start_game, 
     but_clear_selection, but_valid_selection;
 int[][] but_golems_list, but_cards_list, but_fields_list;
@@ -22,6 +23,8 @@ void setup() {
 
     p1 = new Player("Joueur 1");
     p2 = new Player("Joueur 2");
+
+	gameCanvas = createGraphics(1920, 1080);
 
     buttonBackground = loadImage("resources/textures/button.png");
     buttonValidBackground = loadImage("resources/textures/buttonValid.png");
@@ -117,6 +120,7 @@ void draw() {
         drawSelectionCardsMenu();
         break;
     case TURN_P1 :
+    	drawGame();
         break;
     case TURN_P2 :
         break;
@@ -228,6 +232,11 @@ void drawSelectionCardsMenu() {
         fill(color(125, 125, 0));
         rect(but_fields_list[i], mouseScroll);
     }
+}
+
+void drawGame() {
+    fill(WHITE);
+    pg.rect(15, 15 ,15 ,15);
 }
 
 void validSelectionGolems(Player p) {
