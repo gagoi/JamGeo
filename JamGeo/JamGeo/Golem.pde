@@ -2,8 +2,10 @@
 public class Card {
     
     protected int level;
+    protected String name;
     
-    public Card(int level) {
+    public Card(String name, int level) {
+        this.name = name;
         this.level = level;
     }
     
@@ -57,7 +59,6 @@ public Golem[] golemsList = {
 public class Golem extends Card {
 
     private Type type;
-    private String name;
     private int maxLife;
     private int life;
     private int damage;
@@ -76,7 +77,7 @@ public class Golem extends Card {
 
 
     private Golem(Type t, String name, int lvl, int hp, int dmg) {
-        super(lvl);
+        super(name, lvl);
         this.type = t;
         this.name = name;
         this.level = lvl;

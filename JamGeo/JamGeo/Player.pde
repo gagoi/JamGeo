@@ -49,8 +49,21 @@ public class Player {
         mc[sc.length - 2] = (MagicCard)new Field((Field)fieldsList[fields[0]]);
         mc[sc.length - 1] = (MagicCard)new Field((Field)fieldsList[fields[1]]);
         	
+        deckShuffle();
         this.deckReady = true;
     }
+    
+    public void deckShuffle() {
+        int j;
+        MagicCard tmp;
+  		for (int i = this.mc.length; i > 1; i--) {
+    		j = (int)random(i);
+ 
+    		tmp = this.mc[j];
+    		this.mc[j] = this.mc[i-1];
+    		this.mc[i-1] = tmp;
+  		}
+	}
 
 	public void setDeckReady(boolean deckReady) {
 		this.deckReady = deckReady;

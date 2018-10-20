@@ -5,6 +5,13 @@ void init() {
   //MagicCard MCHeal = (MagicCard)new Heal((Heal)magicCardsList[HEAL10]);
   //MagicCard MCField = (MagicCard)new Field((Field)magicCardsList[0]);
   MagicCard MCField = (MagicCard)new Field(fieldsList[F_B_SEDIMENTAIRE]);
+  int[] testArray = new int[]{0, 1, 2, 3, 4};
+  for(int i = 0; i < testArray.length; i++)
+  	print(testArray[i] + ",");
+  println();
+  shuffleArray(testArray);
+  for(int i = 0; i < testArray.length; i++)
+      print(testArray[i] + ",");
   
   GolemList[0].upDamage(1);
   GolemList[0].setMultiple(2);
@@ -12,8 +19,8 @@ void init() {
   GolemList[1].upMaxShield(2);
   GolemList[1].upThorn(2);
   
-  println(GolemList[0]);
-  println(GolemList[1] + "\n");
+  //println(GolemList[0]);
+  //println(GolemList[1] + "\n");
   switch(fight(GolemList[0], GolemList[1])) {
       case -1:
       	GolemList[0] = null;
@@ -29,19 +36,29 @@ void init() {
           break;
   }
   
-  println(GolemList[0]);
-  println(GolemList[1] + "\n");
+  //println(GolemList[0]);
+  //println(GolemList[1] + "\n");
   
   //((Equipement)MCList[0]).affect(GolemList[0]);
   //((Equipement)MCList[1]).affect(GolemList[1]);
   ((Field)MCField).effects(GolemList);
   
-  println(GolemList[0]);
-  println(GolemList[1]);
+  //println(GolemList[0]);
+  //println(GolemList[1]);
   
   
 }
 
 void affichage(){
   ellipse(10, 10, 10, 10);
+}
+
+void shuffleArray(int[] array) {
+  for (int i = array.length; i > 1; i--) {
+    int j = (int)random(i);
+ 
+    int tmp = array[j];
+    array[j] = array[i-1];
+    array[i-1] = tmp;
+  }
 }
