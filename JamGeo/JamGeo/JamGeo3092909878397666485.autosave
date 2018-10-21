@@ -1,5 +1,5 @@
 private enum State {
-    START, GOLEM_P1, GOLEM_P2, DECK_P1, DECK_P2, GAME, END;
+    START, GOLEM_P1, GOLEM_P2, DECK_P1, DECK_P2, TURN_P1, TURN_P2, END;
 }
 
 color WHITE = color(255);
@@ -19,15 +19,10 @@ int[] selected_golems = new int[4], selected_cards = new int[10], selected_field
 int ct_selected_golems, ct_selected_cards, ct_selected_fields;
 
 void setup() {
-    fullScreen(P2D);
+    fullScreen();
 
     p1 = new Player("Joueur 1");
     p2 = new Player("Joueur 2");
-    
-    p1.setGolems(new int[]{0, 1, 6, 11});
-    p2.setGolems(new int[]{4, 5, 2, 7});
-    p1.setCards(new int[]{2, 5, 8, 9, 13, 16, 17, 20, 24, 25}, new int[]{0, 2});
-    p2.setCards(new int[]{26, 29, 31, 34, 38, 40, 42, 11, 20}, new int[]{1, 5});
 
 	gameCanvas = createGraphics(1920, 1080);
 
@@ -124,8 +119,10 @@ void draw() {
     case DECK_P2 :
         drawSelectionCardsMenu();
         break;
-    case GAME :
+    case TURN_P1 :
     	drawGame();
+        break;
+    case TURN_P2 :
         break;
     case END :
         break;
@@ -153,8 +150,7 @@ void mousePressed() {
         } else if (isIn(but_deck_2)) {
             state = State.DECK_P2;
             mouseScroll = 0;
-        } else if (isIn(but_start_game))
-        	state = State.GAME;
+        }
         break;
     case GOLEM_P1 :
         validSelectionGolems(p1);
@@ -168,7 +164,9 @@ void mousePressed() {
     case DECK_P2 :
         validSelectionCards(p2);
         break;
-    case GAME :
+    case TURN_P1 :
+        break;
+    case TURN_P2 :
         break;
     case END :
         break;
@@ -238,17 +236,10 @@ void drawSelectionCardsMenu() {
 
 void drawGame() {
     fill(WHITE);
-    
-    color SPLIT_COLOR = color(125, 0, 125);
-    
     gameCanvas.beginDraw();
-    gameCanvas.noStroke();
-    gameCanvas.fill(SPLIT_COLOR);
-    gameCanvas.rect(1148, 0 , 8, 1080);
-    gameCanvas.rect(1046, 286 , 208, 508);
-	gameCanvas.endDraw();
-
-	image(gameCanvas, 0, 0, width, height);
+    gameCanvas.rect(15, 15 ,15 ,15);
+    gameCanvas.endDraw();
+    image(gameCanvas, 0, 0, width, height);
 }
 
 void validSelectionGolems(Player p) {
