@@ -21,10 +21,9 @@ public enum Stat {
     }
 }
 
-public abstract class MagicCard extends Card {
-    
+public abstract class MagicCard extends Card {    
     public MagicCard(String name, int lvl) {
-     	super(name, lvl);
+         super(name, lvl);
     }
     
     public MagicCard(MagicCard c) {

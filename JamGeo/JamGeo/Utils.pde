@@ -1,13 +1,16 @@
 color BLACK = color(0);
 color WHITE = color(255);
 
-PImage[] cards_textures;
+PImage[] cards_textures, golems_textures;
 
 void loadTextures() {
     int i;
+    golems_textures = new PImage[12];
+    for (i = 0; i < golems_textures.length; i++)
+        golems_textures[i] = loadImage("resources/textures/golems/golem_" + i + ".png");
     cards_textures = new PImage[magicCardsList.length + fieldsList.length];
-	for (i = 0; i < magicCardsList.length; i++)
-		cards_textures[i] = loadImage("resources/textures/card.png");
+    for (i = 0; i < magicCardsList.length; i++)
+        cards_textures[i] = loadImage("resources/textures/card.png");
     for (; i < fieldsList.length; i++)
         cards_textures[i] = loadImage("resources/textures/card.png");
 }
@@ -42,6 +45,6 @@ boolean isIn(int x, int y, int[] box) {
 }
 
 void clearTab(int[] tab) {
-	for (int i = 0; i < tab.length; ++i)
-		tab[i] = -1;
+    for (int i = 0; i < tab.length; ++i)
+        tab[i] = -1;
 }

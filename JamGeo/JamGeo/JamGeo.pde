@@ -108,7 +108,7 @@ void mousePressed() {
         validSelectionCards(p2);
         break;
     case GAME :
-        play(p1, p2);
+        play();
         break;
     case END :
         break;

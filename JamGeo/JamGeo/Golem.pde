@@ -1,7 +1,7 @@
 public class Card {
-    
     protected int level;
     protected String name;
+    
     
     public Card(String name, int level) {
         this.name = name;
@@ -52,26 +52,26 @@ public static final int AMPHIBOLITE = 10;
 public static final int GRANULITE = 11;
 
 public Golem[] golemsList = {
-    new Golem(Type.SEDIMENTAIRE, "Gres", 1, 3, 1), 
-    new Golem(Type.SEDIMENTAIRE, "Gypse", 2, 7, 3), 
-    new Golem(Type.SEDIMENTAIRE, "Bauxite", 3, 12, 6), 
-    new Golem(Type.SEDIMENTAIRE, "Celestine", 4, 20, 8), 
-    new Golem(Type.MAGMATIQUE, "Granite", 1, 1, 3), 
-    new Golem(Type.MAGMATIQUE, "Diorite", 2, 2, 4), 
-    new Golem(Type.MAGMATIQUE, "Basalte", 3, 5, 6), 
-    new Golem(Type.MAGMATIQUE, "Granodiorite", 4, 7, 6), 
-    new Golem(Type.METAMORPHIQUE, "Shiste", 1, 2, 2), 
-    new Golem (Type.METAMORPHIQUE, "Zeolite", 2, 5, 5), 
-    new Golem(Type.METAMORPHIQUE, "Amphibolite", 3, 9, 9), 
-    new Golem  (Type.METAMORPHIQUE, "Granulite", 4, 13, 13)
+    new Golem(Type.SEDIMENTAIRE, GRES, "Gres", 1, 3, 1), 
+    new Golem(Type.SEDIMENTAIRE, GYSPE, "Gypse", 2, 7, 3), 
+    new Golem(Type.SEDIMENTAIRE, BAUXITE, "Bauxite", 3, 12, 6), 
+    new Golem(Type.SEDIMENTAIRE, CELESTINE, "Celestine", 4, 20, 8), 
+    new Golem(Type.MAGMATIQUE, GRANITE, "Granite", 1, 1, 3), 
+    new Golem(Type.MAGMATIQUE, DIORITE, "Diorite", 2, 2, 4), 
+    new Golem(Type.MAGMATIQUE, BASALTE, "Basalte", 3, 5, 6), 
+    new Golem(Type.MAGMATIQUE, GRANODIORITE, "Granodiorite", 4, 7, 6), 
+    new Golem(Type.METAMORPHIQUE, SHISPE, "Shispe", 1, 2, 2), 
+    new Golem (Type.METAMORPHIQUE, ZEOLITE, "Zeolite", 2, 5, 5), 
+    new Golem(Type.METAMORPHIQUE, AMPHIBOLITE, "Amphibolite", 3, 9, 9), 
+    new Golem  (Type.METAMORPHIQUE, GRANULITE, "Granulite", 4, 13, 13)
 };
 
 public class Golem extends Card {
-
     private Type type;
     private int maxLife;
     private int life;
     private int damage;
+    private int id;
     
     private int thorn;
     private int maxShield;
@@ -86,7 +86,7 @@ public class Golem extends Card {
     private ArrayList<Equipement> equipements = new ArrayList(); 
 
 
-    private Golem(Type t, String name, int lvl, int hp, int dmg) {
+    private Golem(Type t, int id, String name, int lvl, int hp, int dmg) {
         super(name, lvl);
         this.type = t;
         this.name = name;
@@ -94,10 +94,11 @@ public class Golem extends Card {
         this.maxLife = hp;
         this.life = hp;
         this.damage = dmg;
+        this.id = id;
     }
 
     public Golem(Golem c) {
-        this(c.type, c.name, c.level, c.life, c.damage);
+        this(c.type, c.id, c.name, c.level, c.life, c.damage);
     }
     
     @Override

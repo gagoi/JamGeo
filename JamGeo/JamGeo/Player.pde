@@ -1,12 +1,14 @@
 public class Player {
     private Golem[] g;
     private MagicCard[] mc;
+    private ArrayList<MagicCard> deck, hand;
     private String name;
 
     private boolean deckReady, golemReady;
 
     public Player(String name) {
-        this.name = name;	
+        this.name = name;
+        this.hand = new ArrayList();
         g = new Golem[4];
         mc = new MagicCard[12];
     }
@@ -48,21 +50,20 @@ public class Player {
         }
         mc[sc.length - 2] = (MagicCard)new Field((Field)fieldsList[fields[0]]);
         mc[sc.length - 1] = (MagicCard)new Field((Field)fieldsList[fields[1]]);
-        	
+        
+        this.deck = new ArrayList<MagicCard>(java.util.Arrays.asList(mc));        
         deckShuffle();
         this.deckReady = true;
     }
     
-    public void deckShuffle() {
-        int j;
-        MagicCard tmp;
-  		for (int i = this.mc.length; i > 1; i--) {
-    		j = (int)random(i);
- 
-    		tmp = this.mc[j];
-    		this.mc[j] = this.mc[i-1];
-    		this.mc[i-1] = tmp;
-  		}
+    public void turn() {
+    	for (int i = 0; i < 4; ++i) {
+    		hand.add(deck.remove(0));
+    	}
+    }
+    
+	public void deckShuffle() {
+		java.util.Collections.shuffle(deck);
 	}
 
 	public void setDeckReady(boolean deckReady) {
