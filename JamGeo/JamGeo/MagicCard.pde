@@ -1,14 +1,25 @@
 
 public enum Stat {
-    LEVEL,
-    HEAL,
-    LIFE,
-    DAMAGE,
-    THORN,
-    SHIELD,
-    TAUNT,
-    MULTIPLE,
-    POISON;
+    LEVEL("niveau"),
+    HEAL("soin"),
+    LIFE("vie"),
+    DAMAGE("dégâts"),
+    THORN("degats d'épines"),
+    SHIELD("boucliers"),
+    TAUNT("provocation"),
+    MULTIPLE("attaques multiples"),
+    POISON("poison");
+    
+    private final String name;
+    
+    private Stat(String s) {
+        this.name = s;
+    }
+    
+    @Override
+    public String toString() {
+        return this.name;
+    }
 }
 
 public abstract class MagicCard extends Card {
@@ -38,6 +49,11 @@ public class Heal extends MagicCard {
     public void effect(Golem g) {
         g.setLife(g.getLife() + this.hp);
     }
+    
+    @Override
+    public String toString() {
+        return "Rend " + this.hp + " à un golem";
+    }
 }
 
 public class UpLife extends MagicCard {
@@ -55,6 +71,11 @@ public class UpLife extends MagicCard {
     
     public void effect(Golem g) {
         g.upMaxLife(this.hp);
+    }
+    
+    @Override
+    public String toString() {
+        return "Augmente de " + this.hp + " la vie d'un golem";
     }
 }
 
@@ -74,6 +95,11 @@ public class Thorn extends MagicCard {
     public void effect(Golem g) {
         g.upThorn(this.th);
     }
+    
+    @Override
+    public String toString() {
+        return "Donne l'effet Thorn (+" + this.th + "dmg/attaque) à un golem";
+    }
 }
 
 public class Multiply extends MagicCard {
@@ -91,6 +117,11 @@ public class Multiply extends MagicCard {
     
     public void effect(Golem g) {
         g.upMultiple(this.mul);
+    }
+    
+    @Override
+    public String toString() {
+        return "Donne attaque x" + this.mul + " à un golem";
     }
 }
 
@@ -110,6 +141,11 @@ public class Shield extends MagicCard {
     public void effect(Golem g) {
         g.upMaxShield(this.sh);
     }
+    
+    @Override
+    public String toString() {
+        return "Donne un bouclier (+" + this.sh + ") à un golem";
+    }
 }
 
 public class Damage extends MagicCard {
@@ -127,6 +163,11 @@ public class Damage extends MagicCard {
     
     public void effect(Golem g) {
         g.receiveDamage(this.dmg);
+    }
+    
+    @Override
+    public String toString() {
+        return "Inflige " + this.dmg + " dégâts à un golem";
     }
 }
 
@@ -146,6 +187,11 @@ public class Poison extends MagicCard {
     public void effect(Golem g) {
         g.setPoison(this.poison);
     }
+    
+    @Override
+    public String toString() {
+        return "Empoisonne un golem " + (this.poison > 0 ? ("(" + this.poison + " tour)") : "");
+    }
 }
 
 public class Taunt extends MagicCard {
@@ -164,6 +210,11 @@ public class Taunt extends MagicCard {
     public void effect(Golem g) {
         g.setTaunt(this.tauntLvl);
     }
+    
+    @Override
+    public String toString() {
+        return "Donne la capacite 'provocation' à un golem " + (this.tauntLvl > 0 ? ("(" + this.tauntLvl + " tour)") : "");
+    }
 }
 
 public class Dequip extends MagicCard {
@@ -178,6 +229,11 @@ public class Dequip extends MagicCard {
     
     public void effect(Golem g) {
         g.removeEquipement();
+    }
+    
+    @Override
+    public String toString() {
+        return "Déséquipe un golem de tous ses équipements";
     }
 }
 
@@ -199,6 +255,11 @@ public class DownLevel extends MagicCard {
     
     public void effect(Golem c) {
         c.upLevel(-this.lvlDown);
+    }
+    
+    @Override
+    public String toString() {
+        return "Baisse de " + this.lvlDown + " niveau" + (this.lvlDown > 1 ? "x" : "") + " le niveau d'une carte";
     }
 }
 
@@ -228,6 +289,11 @@ public class Equipement extends MagicCard {
     public void affect(Golem g) {
         g.addEquipement(this);
     }
+    
+    @Override
+    public String toString() {
+        return "Augmentation " + this.stat + " de " + this.number;
+    }
 }
 
 public class Field extends MagicCard {
@@ -250,6 +316,11 @@ public class Field extends MagicCard {
             if(g.getType() == this.type)
             	card.affect(g);
         }
+    }
+    
+    @Override
+    public String toString() {
+        return "" + this.card + " pour tout les types \"" + this.type + "\"";
     }
 }
 
@@ -298,49 +369,49 @@ public static final int POISON_6 = 41;
 public static final int DEQUIP = 42;
 
 public MagicCard[] magicCardsList = {
-	new Equipement("Cristallisation 1", 1, Stat.SHIELD, 2),
-    new Equipement("Cristallisation 2", 2, Stat.SHIELD, 3),
-    new Equipement("Cristallisation 3", 4, Stat.SHIELD, 5),
+	new Equipement("Solution de Cristallisation 1", 1, Stat.SHIELD, 2),
+    new Equipement("Solution de Cristallisation 2", 2, Stat.SHIELD, 3),
+    new Equipement("Solution de Cristallisation 3", 4, Stat.SHIELD, 5),
     new Equipement("Biochimie 1", 1, Stat.LIFE, 3),
     new Equipement("Biochimie 2", 3, Stat.LIFE, 5),
     new Equipement("Biochimie 3", 6, Stat.LIFE, 10),
-    new Equipement("Pioche", 1, Stat.DAMAGE, 3),
-    new Equipement("Foreuse", 3, Stat.DAMAGE, 5),
-    new Equipement("Dynamite", 4, Stat.DAMAGE, 8),
-    new Equipement("", 1, Stat.THORN, 2),
-    new Equipement("", 3, Stat.THORN, 4),
-    new Equipement("", 5, Stat.THORN, 6),
-    new Equipement("", 5, Stat.TAUNT, -1),
-    new Equipement("", 2, Stat.MULTIPLE, 2),
-    new Equipement("", 5, Stat.MULTIPLE, 3),
-    new Equipement("", 9, Stat.MULTIPLE, 4),
-    new DownLevel("", 2, 1),
-    new DownLevel("", 5, 3),
-    new DownLevel("", 7, 5),
-    new UpLife("", 2, 3),
-    new UpLife("", 5, 6),
-    new UpLife("", 8, 12),
-    new Heal("", 1, 3),
-    new Heal("", 4, 8),
-    new Heal("", 6, 12),
-    new Damage("", 1, 3),
-    new Damage("", 5, 8),
-    new Damage("", 8, 10),
-    new Thorn("", 1, 1),
-    new Thorn("", 4, 3),
-    new Thorn("", 7, 5),
-    new Shield("", 2, 2),
-    new Shield("", 4, 3),
-    new Shield("", 7, 5),
-    new Taunt("", 1, 1),
-    new Taunt("", 3, 3),
-    new Taunt("", 4, -1),
-    new Multiply("", 5, 2),
-    new Multiply("", 8, 3),
-    new Poison("", 2, 2),
-    new Poison("", 5, 4),
-    new Poison("", 8, 6),
-    new Dequip("", 7)
+    new Equipement("Marteau", 1, Stat.DAMAGE, 3),
+    new Equipement("Pioche", 3, Stat.DAMAGE, 5),
+    new Equipement("Foreuse", 4, Stat.DAMAGE, 8),
+    new Equipement("Lithophine 1", 1, Stat.THORN, 2),
+    new Equipement("Lithophine 2", 3, Stat.THORN, 4),
+    new Equipement("Lithophine 3", 5, Stat.THORN, 6),
+    new Equipement("Chambre Magmatique", 5, Stat.TAUNT, -1),
+    new Equipement("Eruption 1", 2, Stat.MULTIPLE, 2),
+    new Equipement("Eruption 2", 5, Stat.MULTIPLE, 3),
+    new Equipement("Eruption 3", 9, Stat.MULTIPLE, 4),
+    new DownLevel("Raffinage 1", 2, 1),
+    new DownLevel("Raffinage 2", 5, 3),
+    new DownLevel("Raffinage 3", 7, 5),
+    new UpLife("Durcissement 1", 2, 3),
+    new UpLife("Durcissement 2", 5, 6),
+    new UpLife("Durcissement 3", 8, 12),
+    new Heal("Refroidissement 1", 1, 3),
+    new Heal("Refroidissement 2", 4, 8),
+    new Heal("Refroidissement 3", 6, 12),
+    new Damage("Dynamite 1", 1, 3),
+    new Damage("Dynamite 2", 5, 8),
+    new Damage("Dynamite 3", 8, 10),
+    new Thorn("Assemblage mineralogique 1", 1, 1),
+    new Thorn("Assemblage mineralogique 2", 4, 3),
+    new Thorn("Assemblage mineralogique 3", 7, 5),
+    new Shield("Cristallisation 1", 2, 2),
+    new Shield("Cristallisation 2", 4, 3),
+    new Shield("Cristallisation 3", 7, 5),
+    new Taunt("Sedimentation 1", 1, 1),
+    new Taunt("Sedimentation 2", 3, 3),
+    new Taunt("Sedimentation 3", 4, -1),
+    new Multiply("Coulee de lave 1", 5, 2),
+    new Multiply("Coulee de lave 2", 8, 3),
+    new Poison("Erosion 1", 2, 2),
+    new Poison("Erosion 2", 5, 4),
+    new Poison("Erosion 3", 8, 6),
+    new Dequip("Epurement", 7)
 };
 
 

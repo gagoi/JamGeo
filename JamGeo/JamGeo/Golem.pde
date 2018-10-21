@@ -23,9 +23,20 @@ public class Card {
 }
 
 public enum Type {
-    SEDIMENTAIRE, 
-    MAGMATIQUE, 
-    METAMORPHIQUE;
+    SEDIMENTAIRE("Sédimentaire"), 
+    MAGMATIQUE("Magmatique"), 
+    METAMORPHIQUE("Métamorphique");
+    
+    private final String name;
+    
+    private Type(String n) {
+        this.name = n;
+    }
+    
+    @Override
+    public String toString() {
+        return this.name;
+    }
 }
 
 public static final int GRES = 0;
