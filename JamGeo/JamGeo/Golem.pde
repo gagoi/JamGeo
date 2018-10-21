@@ -1,4 +1,3 @@
-
 public class Card {
     
     protected int level;
