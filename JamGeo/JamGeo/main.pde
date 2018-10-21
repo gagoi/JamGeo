@@ -29,8 +29,8 @@ void init() {
           break;
   }
   
-  //println(GolemList[0]);
-  //println(GolemList[1] + "\n");
+  println(GolemList[0]);
+  println(GolemList[1] + "\n");
   
   //((Equipement)MCList[0]).affect(GolemList[0]);
   //((Equipement)MCList[1]).affect(GolemList[1]);

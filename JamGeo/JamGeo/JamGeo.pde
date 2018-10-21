@@ -1,5 +1,5 @@
 private enum State {
-    START, GOLEM_P1, GOLEM_P2, DECK_P1, DECK_P2, GAME, END;
+    START, GOLEM_P1, GOLEM_P2, DECK_P1, DECK_P2, TURN_P1, TURN_P2, END;
 }
 
 State state = State.START;
@@ -9,9 +9,6 @@ Player p1, p2;
 
 PImage buttonBackground, buttonUnvalidBackground, buttonValidBackground;
 PGraphics gameCanvas;
-
-
-int[] bb_slot_field;
 
 void setup() {
     fullScreen(P2D);
@@ -30,13 +27,11 @@ void setup() {
     buttonValidBackground = loadImage("resources/textures/buttonValid.png");
     buttonUnvalidBackground = loadImage("resources/textures/buttonUnvalid.png");
 
-
-    bb_slot_field = new int[]{};
-
     init();
     initMainMenu();
     initGolemsMenu();
     initCardsMenu();
+
     loadTextures();
 }
 
@@ -50,6 +45,7 @@ void draw() {
     switch (state) {
     case START :
         drawMainMenu();
+        
         break;
     case GOLEM_P1 :
         drawSelectionGolemsMenu();
@@ -63,10 +59,14 @@ void draw() {
     case DECK_P2 :
         drawSelectionCardsMenu();
         break;
-    case GAME :
+    case TURN_P1 :
+        drawGame();
+    case TURN_P2 :
         drawGame();
         break;
     case END :
+    	if (p1.hasLost()) text("GG " + p2.name, 0, 0, width, height);
+    	else text("GG " + p2.name, 0, 0, width, height);
         break;
     }
 }
@@ -75,10 +75,6 @@ void mouseWheel(MouseEvent event) {
     int e = event.getCount();
     if (mouseScroll > - but_fields_list[but_fields_list.length - 1][1] + but_cards_list[0][1] && e == 1 || mouseScroll < 0 && e == -1)
         mouseScroll -= e*8;
-}
-
-void mouseClicked() {
-  println(mouseX, mouseY);
 }
 
 void mousePressed() {
@@ -96,8 +92,10 @@ void mousePressed() {
         } else if (isIn(but_deck_2)) {
             state = State.DECK_P2;
             mouseScroll = 0;
-        } else if (isIn(but_start_game))
-            state = State.GAME;
+        } else if (isIn(but_start_game)) {
+            state = State.TURN_P1;
+            p1.turn();
+        }
         break;
     case GOLEM_P1 :
         validSelectionGolems(p1);
@@ -111,10 +109,36 @@ void mousePressed() {
     case DECK_P2 :
         validSelectionCards(p2);
         break;
-    case GAME :
+    case TURN_P1 :
         play();
+        println(hasEnded);
+        if (p2.hasLost()) {
+            state = State.END;
+        }
+        if (hasEnded) {
+            hasEnded = false;
+            state = State.TURN_P2;
+            p2.turn();
+            select = null;
+    }
+        break;
+    case TURN_P2 :
+    	println("D3");
+        play();        //<>//
+        
+        if (p1.hasLost()) {
+            state = State.END;
+        }
+        
+        if (hasEnded) {
+            hasEnded = false;
+            state = State.TURN_P1;
+            p1.turn();
+            select = null;
+        }
         break;
     case END :
+    	
         break;
     }
 }

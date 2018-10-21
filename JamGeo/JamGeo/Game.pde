@@ -1,9 +1,18 @@
+int[] box = new int[]{10, 10, 40, 40};
+boolean hasEnded = false;
+
 
 public enum PlayerTurn {
-    PLAYER1,
-    PLAYER2;
+    PLAYER1, 
+        PLAYER2;
 }
 PlayerTurn turn = PlayerTurn.PLAYER1;
+
+public static final int SEPARATION_X = 5;
+public static final int SEPARATION_Y = 20;
+
+Golem select;
+
 /*
  * Fonction de rendu du jeu (utilisée pendant la partie = tours des joueurs).
  */
@@ -14,108 +23,166 @@ void drawGame() {
 
     gameCanvas.beginDraw();
     gameCanvas.noStroke();
+    gameCanvas.background(BLACK);
     gameCanvas.fill(SPLIT_COLOR);
     gameCanvas.rect(1148, 0, 8, 1080);
     gameCanvas.rect(1046, 286, 208, 508);
-    gameCanvas.rect(1200, 536, 1920, 8);
+    gameCanvas.rect(0, 536, 1920, 8);
     gameCanvas.ellipse(1275+45, 310+45, 90, 90);
     gameCanvas.ellipse(1275+45, 420+45, 90, 90);
     gameCanvas.ellipse(1275+45, 570+45, 90, 90);
     gameCanvas.ellipse(1275+45, 680+45, 90, 90);
 
-
-    gameCanvas.text(p1.name, 50, 550);
-    gameCanvas.text(p2.name, 50, 450);
-
+    gameCanvas.textSize(30);
+    gameCanvas.text(p1.name, 50, 600);
+    gameCanvas.text(p2.name, 50, 500);
+    if (state == State.TURN_P1)
+        gameCanvas.ellipse( 10, 600, 20, 20);
+    else 
+    gameCanvas.ellipse( 10, 500, 20, 20);
     gameCanvas.endDraw();
-    int x = 1200, y = 820;
 
-    for (int i = 0; i < p1.hand.size(); ++i) {
+    image(gameCanvas, 0, 0, width, height);
+
+    for (int i = 0; i < p1.g.length; i++) {
+        p1.g[i].drawGolem(84 + i * 175, height - 280, true);
     }
-/*
-    for (int i = 0; i < p1.g.length; ++i) 
-        if (p1.g[i] != null) {
-            image(golems_textures[p1.g[i].id], 84 + i * 175, height - 280);
-        }
-
-    pushMatrix();
-    translate(width/2, height/2);
-    rotate(PI);
-    translate(0, -height/2);
-    for (int i = 0; i < p2.g.length; ++i) 
-        if (p2.g[i] != null) {
-            image(golems_textures[p2.g[i].id], -25 +i * 175, 500);
-        }
-    popMatrix(); 
-	for (int i = 0; i < p1.g.length; ++i) 
-        if (p1.g[i] != null) 
-            text(p1.g[i].name, 150 + i * 175, 680); // BAS - TODO : Coefficients à modifier pour alligner correctement
-            
-    for (int i = 0; i < p2.g.length; ++i) 
-        if (p2.g[i] != null) 
-            text(p2.g[i].name, 660 + i * -175, 90); // HAUT - TODO : Coefficients à modifier pour alligner correctement
-*/
-	for(int i = 0; i < p1.g.length; i++) {
-    	p1.g[i].drawGolem(84 + i * 175, height - 280, true);
-	}
-    for(int i = 0; i < p2.g.length; i++) {
+    for (int i = 0; i < p2.g.length; i++) {
         p2.g[i].drawGolem(84 + i * 175, height - 280, false);
     }
 
-    image(gameCanvas, 0, 0, width, height);
-    
-    //p1.mc[0].drawCard(980, 395, SIZE_MC_X, SIZE_MC_Y);
-    //p1.mc[0].drawCard(830, 571, SIZE_MC_X/2, SIZE_MC_Y/2);
-    //p1.mc[0].drawCard(835, 15, SIZE_MC_X/2, SIZE_MC_Y/2);
-    
-    
-    p1.turn();
-    p1.turn();
-    p1.turn();
-    p1.turn();
-    
-    drawDecks();
-    if(p1.selected != null)
-    	p1.selected.drawCard(10, 10, SIZE_MC_X, SIZE_MC_Y);
-    
-    
+
+    displayHand();
+    if (p1.selected != null) {
+        p1.selected.drawCard(1020, 400, 300, 150);
+        text(p1.selected.toString(), 1040, 420, 260, 110);
+    } 
+    if (p2.selected != null) {
+        p2.selected.drawCard(1020, 220, 300, 150);
+        text(p2.selected.toString(), 1040, 220, 260, 110);
+    }
+
+
     /*
     switch(turn) {
-        case PLAYER1:
-            break;
-        case PLAYER2:
-            break;
-    }*/
+     case PLAYER1:
+     break;
+     case PLAYER2:
+     break;
+     }*/
 }
 
 void play() {
-    int[] box = new int[]{830, 570, SIZE_MC_X/2, 20};
-    for(int i = 0; i < p1.hand.size(); i++) {
-        if(isIn(box)) {
-        	p1.selected = p1.hand.get(i);
-        	println("yolo");
+    if (isIn(box)) {
+        hasEnded = true;
+    } else {
+        int nbC = p1.hand.size()/2;
+        int i;
+        for (i = 0; i < p1.hand.size(); i++) {
+            int[] box = new int[4];
+            if (i == nbC - 1 || i == p1.hand.size() - 1)
+                box = new int[]{830 + (i % nbC) * SEPARATION_X + (i / nbC) * (SIZE_MC_X/2 + 40), 
+                    570 + (i % nbC) * SEPARATION_Y, 
+                    SIZE_MC_X/2, 
+                    SIZE_MC_Y/2};
+            else
+                box = new int[]{830 + (i % nbC) * SEPARATION_X + (i / nbC) * (SIZE_MC_X/2 + 40), 
+                    570 + (i % nbC) * SEPARATION_Y, 
+                    SIZE_MC_X/2, 
+                    SEPARATION_Y};
+
+            if (isIn(box)) {
+                p1.selected = p1.hand.get(i);
+                break;
+            }
+        }
+        if (i == p1.hand.size()) {
+            for (i = 0; i < p2.hand.size(); i++) {
+                int[] box = new int[4];
+                if (i == nbC - 1 || i == p1.hand.size() - 1)
+                    box = new int[]{830 + (i % nbC) * SEPARATION_X + (i / nbC) * (SIZE_MC_X/2 + 40), 
+                        10 + (i % nbC) * SEPARATION_Y, 
+                        SIZE_MC_X/2, 
+                        SIZE_MC_Y/2};
+                else
+                    box = new int[]{830 + (i % nbC) * SEPARATION_X + (i / nbC) * (SIZE_MC_X/2 + 40), 
+                        10 + (i % nbC) * SEPARATION_Y, 
+                        SIZE_MC_X/2, 
+                        SEPARATION_Y};
+
+                if (isIn(box)) {
+                    p2.selected = p2.hand.get(i);
+                    break;
+                }
+            }
+        }
+
+        if (state == State.TURN_P1) {
+            for (int i = 0; i < p1.g.length; ++i) {
+                int[] b = new int[]{84 + i * 175, height - 280, SIZE_GOLEM_X, SIZE_GOLEM_Y};
+                if (isIn(b) && select == null) {
+                    select = p1.g[i];
+                }	
+                else if (isIn(b)) {
+                    fight(select, p1.g[i]);
+                    select = null;
+                }
+            }
+        } else {
+            for (int i = 0; i < p2.g.length; ++i) {
+                int[] b = new int[]{84 + i * 175, 280, SIZE_GOLEM_X, SIZE_GOLEM_Y};
+                if (isIn(b) && select == null) {
+                    select = p2.g[i];
+                } else if (isIn(b)) {
+                    fight(select, p2.g[i]);
+                    select = null;
+                }
+            }
         }
     }
 }
 
-void drawDecks() {
-    int x = 830, y = 570;
+
+void displayHand() {
+    int x = 830, y = 570, y2 = 10;
     int i;
-    for(i = 0; i < (p1.hand.size()/2); i++) {
-        if(p1.hand.get(i) != null) {
-        	p1.hand.get(i).drawCard(x, y, SIZE_MC_X/2, SIZE_MC_Y/2);
-        	x += 5;
-        	y += 20;
+
+    fill(color(50, 142, 255));
+    rect(box);
+
+    fill(BLACK);
+    stroke(WHITE);
+    strokeWeight(2);
+    if (p1.hand.size() > 1) {
+        for (i = 0; i < (p1.hand.size()/2); i++) {
+            if (p1.hand.get(i) != null) {
+                p1.hand.get(i).drawCard(x + i * SEPARATION_X, y + i * SEPARATION_Y, SIZE_MC_X/2, SIZE_MC_Y/2);
+            }
+        }
+
+        for (; i < (p1.hand.size()); i++) {
+            if (p1.hand.get(i) != null) {
+                p1.hand.get(i).drawCard(x + i * SEPARATION_X + SIZE_MC_X/2 + 10, 
+                    y + i % (p1.hand.size() / 2) * SEPARATION_Y, 
+                    SIZE_MC_X/2, 
+                    SIZE_MC_Y/2);
+            }
         }
     }
-    x = x + SIZE_MC_X/2 + 10;
-    y = 570;
-    for(; i < (p1.hand.size()); i++) {
-        //println("p1.hand.get(i): ", p1.hand.get(i));
-        if(p1.hand.get(i) != null) {
-            p1.hand.get(i).drawCard(x, y, SIZE_MC_X/2, SIZE_MC_Y/2);
-            x += 5;
-            y += 20;
+    if ( p2.hand.size() > 1) {
+        for (i = 0; i < (p2.hand.size()/2); i++) {
+            if (p1.hand.get(i) != null) {
+                p1.hand.get(i).drawCard(x + i * SEPARATION_X, y2 + i * SEPARATION_Y, SIZE_MC_X/2, SIZE_MC_Y/2);
+            }
+        }
+
+        for (; i < (p2.hand.size()); i++) {
+            if (p1.hand.get(i) != null) {
+                p1.hand.get(i).drawCard(x + i * SEPARATION_X + SIZE_MC_X/2 + 10, 
+                    y2 + i % (p1.hand.size() / 2) * SEPARATION_Y, 
+                    SIZE_MC_X/2, 
+                    SIZE_MC_Y/2);
+            }
         }
     }
 }

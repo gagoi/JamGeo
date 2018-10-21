@@ -63,6 +63,7 @@ void validSelectionGolems(Player p) {
         clearAll(); // Clear all vide toutes les sélections (voir Menu_Cards).
     } else if (isIn(but_valid_selection)) {
         if (ct_selected_golems == selected_golems.length) {
+            p.setGolems(selected_golems);            
             clearAll(); // Clear all vide toutes les sélections (voir Menu_Cards).
             state = State.START;
         }

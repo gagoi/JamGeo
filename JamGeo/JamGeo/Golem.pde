@@ -6,21 +6,21 @@ public class Card {
     protected int level;
     protected String name;
     public int id;
-    
+
     public Card(int id, String name, int level) {
         this.id = id;
         this.name = name;
         this.level = level;
     }
-    
+
     public int getLevel() {
         return this.level;
     }
-    
+
     public void setLevel(int lvl) {
         this.level = lvl;
     }
-    
+
     public void upLevel(int up) {
         this.level += up;
     }
@@ -28,17 +28,17 @@ public class Card {
 
 public enum Type {
     SEDIMENTAIRE("Sédimentaire"), 
-    MAGMATIQUE("Magmatique"), 
-    METAMORPHIQUE("Métamorphique");
-    
+        MAGMATIQUE("Magmatique"), 
+        METAMORPHIQUE("Métamorphique");
+
     private final String name;
-    
+
     private Type(String n) {
         this.name = n;
     }
-    
+
     @Override
-    public String toString() {
+        public String toString() {
         return this.name;
     }
 }
@@ -51,7 +51,7 @@ public static final int GRANITE = 4;
 public static final int DIORITE = 5;
 public static final int BASALTE = 6;
 public static final int GRANODIORITE = 7;
-public static final int SHISPE = 8;
+public static final int SHISTE = 8;
 public static final int ZEOLITE = 9;
 public static final int AMPHIBOLITE = 10;
 public static final int GRANULITE = 11;
@@ -65,7 +65,7 @@ public Golem[] golemsList = {
     new Golem(Type.MAGMATIQUE, DIORITE, "Diorite", 2, 2, 4), 
     new Golem(Type.MAGMATIQUE, BASALTE, "Basalte", 3, 5, 6), 
     new Golem(Type.MAGMATIQUE, GRANODIORITE, "Granodiorite", 4, 7, 6), 
-    new Golem(Type.METAMORPHIQUE, SHISPE, "Shispe", 1, 2, 2), 
+    new Golem(Type.METAMORPHIQUE, SHISTE, "Shiste", 1, 2, 2), 
     new Golem (Type.METAMORPHIQUE, ZEOLITE, "Zeolite", 2, 5, 5), 
     new Golem(Type.METAMORPHIQUE, AMPHIBOLITE, "Amphibolite", 3, 9, 9), 
     new Golem  (Type.METAMORPHIQUE, GRANULITE, "Granulite", 4, 13, 13)
@@ -76,17 +76,17 @@ public class Golem extends Card {
     private int maxLife;
     private int life;
     private int damage;
-    
+
     private int thorn;
     private int maxShield;
     private int shield;
     private int taunt;
-    
+
     private int up_life;
     private int up_damage;
     private int multipleAttack = 1;
     private int poison;
-    
+
     private ArrayList<Equipement> equipements = new ArrayList(); 
 
 
@@ -104,28 +104,49 @@ public class Golem extends Card {
     public Golem(Golem c) {
         this(c.type, c.id, c.name, c.level, c.life, c.damage);
     }
-    
+
     public void drawGolem(int x, int y, boolean sens) {
-        if(sens) {
-        	image(golems_textures[this.id], x, y);
-        	text(this.name, x+SIZE_GOLEM_X/2, y+SIZE_GOLEM_Y);
-    	} else {
-        	pushMatrix();
-    		translate(width/2, height/2);
-    		rotate(PI);
-        	image(golems_textures[this.id], x-SIZE_GOLEM_X, height-y-SIZE_GOLEM_Y);
+        if (sens) {
+            image(golems_textures[this.id], x, y);
+            text(this.name, x, y + SIZE_GOLEM_Y, SIZE_GOLEM_X, 20);
+           
+           	fill(color(125, 125, 125));
+            image(ui_textures[TEX_SWORD], x - 20, y, 40, 40);
+            image(ui_textures[TEX_HEART], x + SIZE_GOLEM_X / 2 - 20, y- 40, 40, 40);
+            image(ui_textures[TEX_SHIELD], x + SIZE_GOLEM_X - 20, y, 40, 40);
+
+            fill(WHITE);
+            text(life + "/" + maxLife, x + SIZE_GOLEM_X, y, 40, 40); 
+            text(shield + "/" + maxShield, x + SIZE_GOLEM_X / 2 - 20, y- 40, 40); 
+            text(damage + "/", x - 20, y, 40, 40);
+            
+        } else {
+            pushMatrix();
+            translate(width/2, height/2);
+            rotate(PI);
+            image(golems_textures[this.id], x-SIZE_GOLEM_X, height-y-SIZE_GOLEM_Y);
             popMatrix();
-            text(this.name, x+SIZE_GOLEM_X/2, height-y-SIZE_GOLEM_Y);
+            text(this.name, x + 40, height - y - SIZE_GOLEM_Y- 5, SIZE_GOLEM_X/2);
+	
+            image(ui_textures[TEX_SHIELD], x - 20, height - y, 40, 40);
+            image(ui_textures[TEX_HEART], x + SIZE_GOLEM_X / 2 - 30, height - y - 40, 40, 40);
+            image(ui_textures[TEX_SWORD], x + SIZE_GOLEM_X - 20, height - y, 40, 40);
+
+            fill(WHITE);
+            text(this.life + "/" + maxLife, x, height - y, 40, 40); 
+            text(shield + "/" + maxShield, x + SIZE_GOLEM_X / 2 - 20, height - y - 40, 40); 
+            text(damage + "/", x - 20 + SIZE_GOLEM_X, height-y, 40, 40);
+            
         }
     }
-    
+
     @Override
-    public String toString() {
+        public String toString() {
         return this.name + ": " + this.type + " l:" + this.level
-        + " hp:" + this.life + " dmg:" + this.damage + " th:" + this.thorn + " maxsh:" + this.maxShield + " sh:" + this.shield
-        + " upHp:" + this.up_life + " upDmg:" + this.up_damage + " taunt:" + this.taunt + " multiple:" + this.multipleAttack + " poison:" + this.poison;
+            + " hp:" + this.life + " dmg:" + this.damage + " th:" + this.thorn + " maxsh:" + this.maxShield + " sh:" + this.shield
+            + " upHp:" + this.up_life + " upDmg:" + this.up_damage + " taunt:" + this.taunt + " multiple:" + this.multipleAttack + " poison:" + this.poison;
     }
-    
+
     public Type getType() {
         return this.type;
     }
@@ -133,11 +154,11 @@ public class Golem extends Card {
     public int getMaxLife() {
         return this.maxLife;
     }
-    
+
     public void setMaxLife(int max) {
         this.maxLife = max;
     }
-    
+
     public void upMaxLife(int up) {
         this.maxLife += up;
     }
@@ -145,12 +166,12 @@ public class Golem extends Card {
     public int getLife() {
         return this.life;
     }
-    
+
     public void setLife(int life) {
-        if(life > getMaxLife())
-        	this.life = getMaxLife();
+        if (life > getMaxLife())
+            this.life = getMaxLife();
         else
-        	this.life = life;
+            this.life = life;
     }
 
     public void upLife(int up) {
@@ -158,7 +179,7 @@ public class Golem extends Card {
         this.life += up;
     }
 
-	//damage n'a pas de setter, adder
+    //damage n'a pas de setter, adder
     public int getDamage() {
         return this.damage;
     }
@@ -168,7 +189,7 @@ public class Golem extends Card {
     }
 
     public void upThorn(int up) {
-        if(this.thorn + up < 0)
+        if (this.thorn + up < 0)
             this.thorn = 0;
         else
             this.thorn += up;
@@ -177,7 +198,7 @@ public class Golem extends Card {
     public int getMaxShield() {
         return this.maxShield;
     }
-    
+
     public void setMaxShield(int max) {
         this.shield = max;
         this.maxShield = max;
@@ -193,18 +214,18 @@ public class Golem extends Card {
     }
 
     public void upShield(int up) {
-        if(this.shield + up < 0)
+        if (this.shield + up < 0)
             this.shield = 0;
-        else if(this.shield + up > this.maxShield)
+        else if (this.shield + up > this.maxShield)
             this.shield = this.maxShield;
         else
             this.shield += up;
     }
-    
+
     public int getTaunt() {
         return this.taunt;
     }
-    
+
     public void setTaunt(int t) {
         this.taunt = t;
     }
@@ -216,71 +237,71 @@ public class Golem extends Card {
     public void upDamage(int up) {
         this.up_damage += up;
     }
-    
+
     public int getMultiple() {
         return this.multipleAttack;
     }
-    
+
     public void setMultiple(int mul) {
-        if(mul < 1)
+        if (mul < 1)
             this.multipleAttack = 1;
         else
             this.multipleAttack = mul;
     }
-    
+
     public void upMultiple(int up) {
-        if(this.multipleAttack + up < 1)
+        if (this.multipleAttack + up < 1)
             this.multipleAttack = 1;
         else
             this.multipleAttack += up;
     }
-    
+
     public int getPoison() {
         return this.poison;
     }
-    
+
     public void setPoison(int p) {
         this.poison = p;
     }
-    
+
     public void upPoison(int up) {
         this.poison += up;
     }
-    
+
     public void addEquipement(Equipement e) {
         equipements.add(e);
         switch(e.stat) {
-            case LIFE:
-            	upLife(e.getNumber());
-                break;
-            case DAMAGE:
-                upDamage(e.getNumber());
-                break;
-            case THORN:
-            	upThorn(e.getNumber());
-                break;
-            case SHIELD:
-            	upMaxShield(e.getNumber());
-                break;
-            case TAUNT:
-            	setTaunt(e.getNumber());
-                break;
-            case MULTIPLE:
-            	setMultiple(e.getNumber());
-                break;
-            default:
-               break;
+        case LIFE:
+            upLife(e.getNumber());
+            break;
+        case DAMAGE:
+            upDamage(e.getNumber());
+            break;
+        case THORN:
+            upThorn(e.getNumber());
+            break;
+        case SHIELD:
+            upMaxShield(e.getNumber());
+            break;
+        case TAUNT:
+            setTaunt(e.getNumber());
+            break;
+        case MULTIPLE:
+            setMultiple(e.getNumber());
+            break;
+        default:
+            break;
         }
     }
-    
+
     public void removeEquipement() {
-     	equipements.clear();
+        equipements.clear();
     }
-    
+
     public int getAttack() {
         return (getDamage() + getUpDamage()) * getMultiple();
     }
-    
+
     public void receiveDamage(int dmg) {
         int attack = dmg;
         int diff = getShield() - attack;
@@ -300,19 +321,19 @@ public class Golem extends Card {
 public int fight(Golem a, Golem d) {
     int res = 0;
     int attack;
-    
+
     //Life et Shield
     attack = a.getAttack();
     d.receiveDamage(attack);
-    
+
     //Thorn
     attack = d.getThorn() * a.getMultiple();
     a.receiveDamage(attack);
-    
-    if(d.getLife() <= 0)
+
+    if (d.getLife() <= 0)
         res = a.getLife() <= 0 ? 2 : 1;
-    else if(a.getLife() <= 0)
-    	res = -1;
-    
+    else if (a.getLife() <= 0)
+        res = -1;
+
     return res;
 }
