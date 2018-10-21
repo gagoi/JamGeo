@@ -1,9 +1,14 @@
+
+public static final int SIZE_GOLEM_X = 100;
+public static final int SIZE_GOLEM_Y = 183;
+
 public class Card {
     protected int level;
     protected String name;
+    public int id;
     
-    
-    public Card(String name, int level) {
+    public Card(int id, String name, int level) {
+        this.id = id;
         this.name = name;
         this.level = level;
     }
@@ -71,7 +76,6 @@ public class Golem extends Card {
     private int maxLife;
     private int life;
     private int damage;
-    private int id;
     
     private int thorn;
     private int maxShield;
@@ -87,7 +91,7 @@ public class Golem extends Card {
 
 
     private Golem(Type t, int id, String name, int lvl, int hp, int dmg) {
-        super(name, lvl);
+        super(id, name, lvl);
         this.type = t;
         this.name = name;
         this.level = lvl;
@@ -99,6 +103,20 @@ public class Golem extends Card {
 
     public Golem(Golem c) {
         this(c.type, c.id, c.name, c.level, c.life, c.damage);
+    }
+    
+    public void drawGolem(int x, int y, boolean sens) {
+        if(sens) {
+        	image(golems_textures[this.id], x, y);
+        	text(this.name, x+SIZE_GOLEM_X/2, y+SIZE_GOLEM_Y);
+    	} else {
+        	pushMatrix();
+    		translate(width/2, height/2);
+    		rotate(PI);
+        	image(golems_textures[this.id], x-SIZE_GOLEM_X, height-y-SIZE_GOLEM_Y);
+            popMatrix();
+            text(this.name, x+SIZE_GOLEM_X/2, height-y-SIZE_GOLEM_Y);
+        }
     }
     
     @Override

@@ -12,7 +12,7 @@ void loadTextures() {
     for (i = 0; i < magicCardsList.length; i++)
         cards_textures[i] = loadImage("resources/textures/card.png");
     for (; i < fieldsList.length; i++)
-        cards_textures[i] = loadImage("resources/textures/card.png");
+        cards_textures[i] = loadImage("resources/textures/card2.png");
 }
 
 void rect(int[] box) {

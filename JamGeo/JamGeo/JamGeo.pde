@@ -77,6 +77,10 @@ void mouseWheel(MouseEvent event) {
         mouseScroll -= e*8;
 }
 
+void mouseClicked() {
+  println(mouseX, mouseY);
+}
+
 void mousePressed() {
     if (isIn(but_close))
         exit();

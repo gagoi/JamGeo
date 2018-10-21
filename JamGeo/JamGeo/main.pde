@@ -5,13 +5,6 @@ void init() {
   //MagicCard MCHeal = (MagicCard)new Heal((Heal)magicCardsList[HEAL10]);
   //MagicCard MCField = (MagicCard)new Field((Field)magicCardsList[0]);
   MagicCard MCField = (MagicCard)new Field(fieldsList[F_B_SEDIMENTAIRE]);
-  int[] testArray = new int[]{0, 1, 2, 3, 4};
-  for(int i = 0; i < testArray.length; i++)
-  	print(testArray[i] + ",");
-  println();
-  shuffleArray(testArray);
-  for(int i = 0; i < testArray.length; i++)
-      print(testArray[i] + ",");
   
   GolemList[0].upDamage(1);
   GolemList[0].setMultiple(2);

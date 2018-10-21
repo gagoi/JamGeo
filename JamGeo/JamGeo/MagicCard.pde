@@ -1,3 +1,7 @@
+
+public static final int SIZE_MC_X = 500;
+public static final int SIZE_MC_Y = 200;
+
 public enum Stat {
     LEVEL("niveau"),
     HEAL("soin"),
@@ -22,12 +26,27 @@ public enum Stat {
 }
 
 public abstract class MagicCard extends Card {    
-    public MagicCard(String name, int lvl) {
-         super(name, lvl);
+    public MagicCard(int id, String name, int lvl) {
+         super(id, name, lvl);
     }
     
     public MagicCard(MagicCard c) {
-        this(c.name, c.level);
+        this(c.id, c.name, c.level);
+    }
+    
+    public void drawCard(int x, int y) {
+        image(cards_textures[this.id], x, y);
+        text(this.name, x, y);
+        text(this.toString(), x+10, y+10);
+    }
+    
+    public void drawCard(int x, int y, int size1, int size2) {
+        //println("Id bug:", this.id);
+        //println("Taille textures:", cards_textures.length);
+        if(!(cards_textures[this.id] == null))
+        	image(cards_textures[this.id], x, y, size1, size2);
+        text(this.name, x+ size1/2, y+10);
+        //text(this.toString(), x + 10+ size1/2, y + 20+ size2/2, size1, size2);
     }
 }
 
@@ -35,13 +54,13 @@ public class Heal extends MagicCard {
     
     private int hp;
     
-    public Heal(String name, int lvl, int hp) {
-         super(name, lvl);
+    public Heal(int id, String name, int lvl, int hp) {
+         super(id, name, lvl);
          this.hp = hp;
     }
     
     public Heal(Heal h) {
-        this(h.name, h.level, h.hp);
+        this(h.id, h.name, h.level, h.hp);
     }
     
     public void effect(Golem g) {
@@ -58,13 +77,13 @@ public class UpLife extends MagicCard {
     
     private int hp;
     
-    public UpLife(String name, int lvl, int hp) {
-         super(name, lvl);
+    public UpLife(int id, String name, int lvl, int hp) {
+         super(id, name, lvl);
          this.hp = hp;
     }
     
     public UpLife(UpLife h) {
-        this(h.name, h.level, h.hp);
+        this(h.id, h.name, h.level, h.hp);
     }
     
     public void effect(Golem g) {
@@ -81,13 +100,13 @@ public class Thorn extends MagicCard {
     
     private int th;
     
-    public Thorn(String name, int lvl, int th) {
-         super(name, lvl);
+    public Thorn(int id, String name, int lvl, int th) {
+         super(id, name, lvl);
          this.th = th;
     }
     
     public Thorn(Thorn h) {
-        this(h.name, h.level, h.th);
+        this(h.id, h.name, h.level, h.th);
     }
     
     public void effect(Golem g) {
@@ -104,13 +123,13 @@ public class Multiply extends MagicCard {
     
     private int mul;
     
-    public Multiply(String name, int lvl, int mul) {
-         super(name, lvl);
+    public Multiply(int id, String name, int lvl, int mul) {
+         super(id, name, lvl);
          this.mul = mul;
     }
     
     public Multiply(Multiply h) {
-        this(h.name, h.level, h.mul);
+        this(h.id, h.name, h.level, h.mul);
     }
     
     public void effect(Golem g) {
@@ -127,13 +146,13 @@ public class Shield extends MagicCard {
     
     private int sh;
     
-    public Shield(String name, int lvl, int sh) {
-         super(name, lvl);   
+    public Shield(int id, String name, int lvl, int sh) {
+         super(id, name, lvl);   
          this.sh = sh;
     }
     
     public Shield(Shield s) {
-        this(s.name, s.level, s.sh);
+        this(s.id, s.name, s.level, s.sh);
     }
     
     public void effect(Golem g) {
@@ -150,13 +169,13 @@ public class Damage extends MagicCard {
     
     private int dmg;
     
-    public Damage(String name, int lvl, int dmg) {
-         super(name, lvl);
+    public Damage(int id, String name, int lvl, int dmg) {
+         super(id, name, lvl);
          this.dmg = dmg;
     }
     
     public Damage(Damage s) {
-        this(s.name, s.level, s.dmg);
+        this(s.id, s.name, s.level, s.dmg);
     }
     
     public void effect(Golem g) {
@@ -173,13 +192,13 @@ public class Poison extends MagicCard {
     
     private int poison;
     
-    public Poison(String name, int lvl, int poison) {
-         super(name, lvl);
+    public Poison(int id, String name, int lvl, int poison) {
+         super(id, name, lvl);
          this.poison = poison;
     }
     
     public Poison(Poison s) {
-        this(s.name, s.level, s.poison);
+        this(s.id, s.name, s.level, s.poison);
     }
     
     public void effect(Golem g) {
@@ -196,13 +215,13 @@ public class Taunt extends MagicCard {
     
     private int tauntLvl;
     
-    public Taunt(String name, int lvl, int taunt) {
-         super(name, lvl);
+    public Taunt(int id, String name, int lvl, int taunt) {
+         super(id, name, lvl);
          this.tauntLvl = taunt;
     }
     
     public Taunt(Taunt s) {
-        this(s.name, s.level, s.tauntLvl);
+        this(s.id, s.name, s.level, s.tauntLvl);
     }
     
     public void effect(Golem g) {
@@ -217,12 +236,12 @@ public class Taunt extends MagicCard {
 
 public class Dequip extends MagicCard {
     
-    public Dequip(String name, int lvl) {
-         super(name, lvl);
+    public Dequip(int id, String name, int lvl) {
+         super(id, name, lvl);
     }
     
     public Dequip(Dequip s) {
-        this(s.name, s.level);
+        this(s.id, s.name, s.level);
     }
     
     public void effect(Golem g) {
@@ -239,13 +258,13 @@ public class DownLevel extends MagicCard {
     
     private int lvlDown;
     
-    public DownLevel(String name, int lvl, int lvlDown) {
-         super(name, lvl);
+    public DownLevel(int id, String name, int lvl, int lvlDown) {
+         super(id, name, lvl);
          this.lvlDown = lvlDown;
     }
     
     public DownLevel(DownLevel s) {
-        this(s.name, s.level, s.lvlDown);
+        this(s.id, s.name, s.level, s.lvlDown);
     }
     public void effect(Card c) {
         c.upLevel(-this.lvlDown);
@@ -266,14 +285,14 @@ public class Equipement extends MagicCard {
     private int number;
     private Stat stat;
     
-    public Equipement(String name, int lvl, Stat stat, int nb) {
-         super(name, lvl);
+    public Equipement(int id, String name, int lvl, Stat stat, int nb) {
+         super(id, name, lvl);
          this.number = nb;
          this.stat = stat;
     }
     
     public Equipement(Equipement s) {
-        this(s.name, s.level, s.stat, s.number);
+        this(s.id, s.name, s.level, s.stat, s.number);
     }
     
     public Stat getStat() {
@@ -299,14 +318,14 @@ public class Field extends MagicCard {
     private Equipement card;
     private Type type;
     
-    public Field(String name, int lvl, Equipement c, Type t) {
-         super(name, lvl);
+    public Field(int id, String name, int lvl, Equipement c, Type t) {
+         super(id, name, lvl);
          this.card = c;
          this.type = t;
     }
     
     public Field(Field s) {
-        this(s.name, s.level, s.card, s.type);
+        this(s.id, s.name, s.level, s.card, s.type);
     }
     
     public void effects(Golem[] golems) {
@@ -367,49 +386,49 @@ public static final int POISON_6 = 41;
 public static final int DEQUIP = 42;
 
 public MagicCard[] magicCardsList = {
-	new Equipement("Solution de Cristallisation 1", 1, Stat.SHIELD, 2),
-    new Equipement("Solution de Cristallisation 2", 2, Stat.SHIELD, 3),
-    new Equipement("Solution de Cristallisation 3", 4, Stat.SHIELD, 5),
-    new Equipement("Biochimie 1", 1, Stat.LIFE, 3),
-    new Equipement("Biochimie 2", 3, Stat.LIFE, 5),
-    new Equipement("Biochimie 3", 6, Stat.LIFE, 10),
-    new Equipement("Marteau", 1, Stat.DAMAGE, 3),
-    new Equipement("Pioche", 3, Stat.DAMAGE, 5),
-    new Equipement("Foreuse", 4, Stat.DAMAGE, 8),
-    new Equipement("Lithophine 1", 1, Stat.THORN, 2),
-    new Equipement("Lithophine 2", 3, Stat.THORN, 4),
-    new Equipement("Lithophine 3", 5, Stat.THORN, 6),
-    new Equipement("Chambre Magmatique", 5, Stat.TAUNT, -1),
-    new Equipement("Eruption 1", 2, Stat.MULTIPLE, 2),
-    new Equipement("Eruption 2", 5, Stat.MULTIPLE, 3),
-    new Equipement("Eruption 3", 9, Stat.MULTIPLE, 4),
-    new DownLevel("Raffinage 1", 2, 1),
-    new DownLevel("Raffinage 2", 5, 3),
-    new DownLevel("Raffinage 3", 7, 5),
-    new UpLife("Durcissement 1", 2, 3),
-    new UpLife("Durcissement 2", 5, 6),
-    new UpLife("Durcissement 3", 8, 12),
-    new Heal("Refroidissement 1", 1, 3),
-    new Heal("Refroidissement 2", 4, 8),
-    new Heal("Refroidissement 3", 6, 12),
-    new Damage("Dynamite 1", 1, 3),
-    new Damage("Dynamite 2", 5, 8),
-    new Damage("Dynamite 3", 8, 10),
-    new Thorn("Assemblage mineralogique 1", 1, 1),
-    new Thorn("Assemblage mineralogique 2", 4, 3),
-    new Thorn("Assemblage mineralogique 3", 7, 5),
-    new Shield("Cristallisation 1", 2, 2),
-    new Shield("Cristallisation 2", 4, 3),
-    new Shield("Cristallisation 3", 7, 5),
-    new Taunt("Sedimentation 1", 1, 1),
-    new Taunt("Sedimentation 2", 3, 3),
-    new Taunt("Sedimentation 3", 4, -1),
-    new Multiply("Coulee de lave 1", 5, 2),
-    new Multiply("Coulee de lave 2", 8, 3),
-    new Poison("Erosion 1", 2, 2),
-    new Poison("Erosion 2", 5, 4),
-    new Poison("Erosion 3", 8, 6),
-    new Dequip("Epurement", 7)
+	new Equipement(0, "Solution de Cristallisation 1", 1, Stat.SHIELD, 2),
+    new Equipement(1, "Solution de Cristallisation 2", 2, Stat.SHIELD, 3),
+    new Equipement(2, "Solution de Cristallisation 3", 4, Stat.SHIELD, 5),
+    new Equipement(3, "Biochimie 1", 1, Stat.LIFE, 3),
+    new Equipement(4, "Biochimie 2", 3, Stat.LIFE, 5),
+    new Equipement(5, "Biochimie 3", 6, Stat.LIFE, 10),
+    new Equipement(6, "Marteau", 1, Stat.DAMAGE, 3),
+    new Equipement(7, "Pioche", 3, Stat.DAMAGE, 5),
+    new Equipement(8, "Foreuse", 4, Stat.DAMAGE, 8),
+    new Equipement(9, "Lithophine 1", 1, Stat.THORN, 2),
+    new Equipement(10, "Lithophine 2", 3, Stat.THORN, 4),
+    new Equipement(11, "Lithophine 3", 5, Stat.THORN, 6),
+    new Equipement(12, "Chambre Magmatique", 5, Stat.TAUNT, -1),
+    new Equipement(13, "Eruption 1", 2, Stat.MULTIPLE, 2),
+    new Equipement(14, "Eruption 2", 5, Stat.MULTIPLE, 3),
+    new Equipement(15, "Eruption 3", 9, Stat.MULTIPLE, 4),
+    new DownLevel(16, "Raffinage 1", 2, 1),
+    new DownLevel(17, "Raffinage 2", 5, 3),
+    new DownLevel(18, "Raffinage 3", 7, 5),
+    new UpLife(19, "Durcissement 1", 2, 3),
+    new UpLife(20, "Durcissement 2", 5, 6),
+    new UpLife(21, "Durcissement 3", 8, 12),
+    new Heal(22, "Refroidissement 1", 1, 3),
+    new Heal(23, "Refroidissement 2", 4, 8),
+    new Heal(24, "Refroidissement 3", 6, 12),
+    new Damage(25, "Dynamite 1", 1, 3),
+    new Damage(26, "Dynamite 2", 5, 8),
+    new Damage(27, "Dynamite 3", 8, 10),
+    new Thorn(28, "Assemblage mineralogique 1", 1, 1),
+    new Thorn(29, "Assemblage mineralogique 2", 4, 3),
+    new Thorn(30, "Assemblage mineralogique 3", 7, 5),
+    new Shield(31, "Cristallisation 1", 2, 2),
+    new Shield(32, "Cristallisation 2", 4, 3),
+    new Shield(33, "Cristallisation 3", 7, 5),
+    new Taunt(34, "Sedimentation 1", 1, 1),
+    new Taunt(35, "Sedimentation 2", 3, 3),
+    new Taunt(36, "Sedimentation 3", 4, -1),
+    new Multiply(37, "Coulee de lave 1", 5, 2),
+    new Multiply(38, "Coulee de lave 2", 8, 3),
+    new Poison(39, "Erosion 1", 2, 2),
+    new Poison(40, "Erosion 2", 5, 4),
+    new Poison(41, "Erosion 3", 8, 6),
+    new Dequip(42, "Epurement", 7)
 };
 
 
@@ -420,16 +439,16 @@ public static final int F_M_SEDIMENTAIRE = 3;
 public static final int F_M_MAGMATIQUE = 4;
 public static final int F_M_METAMORPHIQUE = 5;
 
-Equipement malusSed = new Equipement("", 0, Stat.THORN, -2);
-Equipement malusMag = new Equipement("", 0, Stat.MULTIPLE, 1);
-Equipement malusMet = new Equipement("", 0, Stat.SHIELD, -2);
+Equipement malusSed = new Equipement(-1, "", 0, Stat.THORN, -2);
+Equipement malusMag = new Equipement(-1, "", 0, Stat.MULTIPLE, 1);
+Equipement malusMet = new Equipement(-1, "", 0, Stat.SHIELD, -2);
 
 public Field[] fieldsList = {
-    new Field("", 4, (Equipement)magicCardsList[E_THORN_2], Type.SEDIMENTAIRE), //Bonus Sedimentaire
-    new Field("", 5, (Equipement)magicCardsList[E_MULTIPLE_2], Type.MAGMATIQUE),  //Bonus Magmatique
-    new Field("", 5, (Equipement)magicCardsList[E_SHIELD_2], Type.METAMORPHIQUE),//Bonus metamorphique
-    new Field("", 4, malusSed, Type.SEDIMENTAIRE), //Malus Sedimentaire
-    new Field("", 5, malusMag, Type.MAGMATIQUE),  //Malus Magmatique
-    new Field("", 5, malusMet, Type.METAMORPHIQUE),//Malus metamorphique
+    new Field(43, "", 4, (Equipement)magicCardsList[E_THORN_2], Type.SEDIMENTAIRE), //Bonus Sedimentaire
+    new Field(44, "", 5, (Equipement)magicCardsList[E_MULTIPLE_2], Type.MAGMATIQUE),  //Bonus Magmatique
+    new Field(45, "", 5, (Equipement)magicCardsList[E_SHIELD_2], Type.METAMORPHIQUE),//Bonus metamorphique
+    new Field(46, "", 4, malusSed, Type.SEDIMENTAIRE), //Malus Sedimentaire
+    new Field(47, "", 5, malusMag, Type.MAGMATIQUE),  //Malus Magmatique
+    new Field(48, "", 5, malusMet, Type.METAMORPHIQUE),//Malus metamorphique
 };
 //30 cartes a faire

@@ -3,6 +3,7 @@ public class Player {
     private MagicCard[] mc;
     private ArrayList<MagicCard> deck, hand;
     private String name;
+    private MagicCard selected;
 
     private boolean deckReady, golemReady;
 
@@ -58,7 +59,8 @@ public class Player {
     
     public void turn() {
     	for (int i = 0; i < 4; ++i) {
-    		hand.add(deck.remove(0));
+        	if(deck.size() > 0)
+    			hand.add(deck.remove(0));
     	}
     }
     
