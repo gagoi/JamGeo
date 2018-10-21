@@ -1,4 +1,3 @@
-
 public enum Stat {
     LEVEL("niveau"),
     HEAL("soin"),

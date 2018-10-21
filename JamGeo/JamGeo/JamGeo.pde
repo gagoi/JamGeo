@@ -37,6 +37,7 @@ void setup() {
     initMainMenu();
     initGolemsMenu();
     initCardsMenu();
+    loadTextures();
 }
 
 void draw() {
@@ -68,7 +69,6 @@ void draw() {
     case END :
         break;
     }
-    text("Mouse:" + mouseScroll + "["+ width / 2 + ";" +  (but_fields_list[but_fields_list.length - 1][1]) + "]", 400, 20);
 }
 
 void mouseWheel(MouseEvent event) {
@@ -108,6 +108,7 @@ void mousePressed() {
         validSelectionCards(p2);
         break;
     case GAME :
+        play(p1, p2);
         break;
     case END :
         break;

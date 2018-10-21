@@ -1,6 +1,16 @@
 color BLACK = color(0);
 color WHITE = color(255);
 
+PImage[] cards_textures;
+
+void loadTextures() {
+    int i;
+    cards_textures = new PImage[magicCardsList.length + fieldsList.length];
+	for (i = 0; i < magicCardsList.length; i++)
+		cards_textures[i] = loadImage("resources/textures/card.png");
+    for (; i < fieldsList.length; i++)
+        cards_textures[i] = loadImage("resources/textures/card.png");
+}
 
 void rect(int[] box) {
     rect(box[0], box[1], box[2], box[3]);
