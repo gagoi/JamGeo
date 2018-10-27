@@ -135,8 +135,7 @@ public class Golem extends Card {
             fill(WHITE);
             text(this.life + "/" + maxLife, x, height - y, 40, 40); 
             text(shield + "/" + maxShield, x + SIZE_GOLEM_X / 2 - 20, height - y - 40, 40); 
-            text(damage + "/", x - 20 + SIZE_GOLEM_X, height-y, 40, 40);
-            
+            text(damage + "/", x - 20 + SIZE_GOLEM_X, height-y, 40, 40);            
         }
     }
 

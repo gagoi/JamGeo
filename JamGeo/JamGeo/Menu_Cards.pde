@@ -57,6 +57,8 @@ void drawSelectionCardsMenu() {
             }
         fill(color(125, 0, 125));
         rect(but_cards_list[i], mouseScroll);
+        fill(color(BLACK));
+        text(magicCardsList[i].name, but_cards_list[i][0], but_cards_list[i][1] + mouseScroll, but_cards_list[i][2], but_cards_list[i][3]);
     }
 
     for (int i = 0; i < fieldsList.length; i++) {
@@ -67,6 +69,8 @@ void drawSelectionCardsMenu() {
             }
         fill(color(125, 125, 0));
         rect(but_fields_list[i], mouseScroll);
+        fill(color(BLACK));
+        text(fieldsList[i].name, but_fields_list[i][0], but_fields_list[i][1] + mouseScroll, but_fields_list[i][2], but_fields_list[i][3]);
     }
 }
 

@@ -80,7 +80,7 @@ void play() {
         int i;
         for (i = 0; i < p1.hand.size(); i++) {
             int[] box = new int[4];
-            if (i == nbC - 1 || i == p1.hand.size() - 1)
+            if ((i > 2 && i == nbC - 1) || i == p1.hand.size() - 1)
                 box = new int[]{830 + (i % nbC) * SEPARATION_X + (i / nbC) * (SIZE_MC_X/2 + 40), 
                     570 + (i % nbC) * SEPARATION_Y, 
                     SIZE_MC_X/2, 
@@ -118,7 +118,7 @@ void play() {
         }
 
         if (state == State.TURN_P1) {
-            for (int i = 0; i < p1.g.length; ++i) {
+            for (i = 0; i < p1.g.length; ++i) {
                 int[] b = new int[]{84 + i * 175, height - 280, SIZE_GOLEM_X, SIZE_GOLEM_Y};
                 if (isIn(b) && select == null) {
                     select = p1.g[i];
@@ -129,7 +129,7 @@ void play() {
                 }
             }
         } else {
-            for (int i = 0; i < p2.g.length; ++i) {
+            for (i = 0; i < p2.g.length; ++i) {
                 int[] b = new int[]{84 + i * 175, 280, SIZE_GOLEM_X, SIZE_GOLEM_Y};
                 if (isIn(b) && select == null) {
                     select = p2.g[i];
