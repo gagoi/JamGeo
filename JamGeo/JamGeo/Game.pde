@@ -76,7 +76,7 @@ void play() {
     if (isIn(box)) {
         hasEnded = true;
     } else {
-        int nbC = p1.hand.size()/2;
+        int nbC = max(p1.hand.size()/2, 1);
         int i;
         for (i = 0; i < p1.hand.size(); i++) {
             int[] box = new int[4];
@@ -171,15 +171,15 @@ void displayHand() {
     }
     if ( p2.hand.size() > 1) {
         for (i = 0; i < (p2.hand.size()/2); i++) {
-            if (p1.hand.get(i) != null) {
-                p1.hand.get(i).drawCard(x + i * SEPARATION_X, y2 + i * SEPARATION_Y, SIZE_MC_X/2, SIZE_MC_Y/2);
+            if (p2.hand.get(i) != null) {
+                p2.hand.get(i).drawCard(x + i * SEPARATION_X, y2 + i * SEPARATION_Y, SIZE_MC_X/2, SIZE_MC_Y/2);
             }
         }
 
         for (; i < (p2.hand.size()); i++) {
-            if (p1.hand.get(i) != null) {
-                p1.hand.get(i).drawCard(x + i * SEPARATION_X + SIZE_MC_X/2 + 10, 
-                    y2 + i % (p1.hand.size() / 2) * SEPARATION_Y, 
+            if (p2.hand.get(i) != null) {
+                p2.hand.get(i).drawCard(x + i * SEPARATION_X + SIZE_MC_X/2 + 10, 
+                    y2 + i % (p2.hand.size() / 2) * SEPARATION_Y, 
                     SIZE_MC_X/2, 
                     SIZE_MC_Y/2);
             }

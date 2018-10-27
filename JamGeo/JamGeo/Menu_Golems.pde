@@ -56,6 +56,8 @@ void drawSelectionGolemsMenu() {
             break;
         }
         rect(but_golems_list[i]);
+        fill(color(BLACK));
+        text(golemsList[i].name, but_golems_list[i][0], but_golems_list[i][1], but_golems_list[i][2], but_golems_list[i][3]);
     }
 }
 void validSelectionGolems(Player p) {
