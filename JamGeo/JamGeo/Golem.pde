@@ -124,18 +124,18 @@ public class Golem extends Card {
             pushMatrix();
             translate(width/2, height/2);
             rotate(PI);
-            image(golems_textures[this.id], x-SIZE_GOLEM_X, height-y-SIZE_GOLEM_Y);
+            image(golems_textures[this.id], x-SIZE_GOLEM_X-10, height-y-SIZE_GOLEM_Y);
             popMatrix();
             text(this.name, x + 40, height - y - SIZE_GOLEM_Y- 5, SIZE_GOLEM_X/2);
 	
-            image(ui_textures[TEX_SHIELD], x - 20, height - y, 40, 40);
-            image(ui_textures[TEX_HEART], x + SIZE_GOLEM_X / 2 - 30, height - y - 40, 40, 40);
-            image(ui_textures[TEX_SWORD], x + SIZE_GOLEM_X - 20, height - y, 40, 40);
+            image(ui_textures[TEX_SHIELD], x - 20, height - y - 20, 40, 40);
+            image(ui_textures[TEX_HEART], x + SIZE_GOLEM_X / 2 - 20, height - y + 5, 40, 40);
+            image(ui_textures[TEX_SWORD], x + SIZE_GOLEM_X - 20, height - y - 20, 40, 40);
 
             fill(WHITE);
-            text(this.life + "/" + maxLife, x, height - y, 40, 40); 
-            text(shield + "/" + maxShield, x + SIZE_GOLEM_X / 2 - 20, height - y - 40, 40); 
-            text(damage + "/", x - 20 + SIZE_GOLEM_X, height-y, 40, 40);            
+            text(this.life + "/" + maxLife, x-10, height - y - 20, 40, 40); 
+            text(shield + "/" + maxShield, x + SIZE_GOLEM_X / 2 - 20,  height - y + 5, 40, 40); 
+            text(this.damage + "", x - 20 + SIZE_GOLEM_X, height - y - 20, 40, 40);            
         }
     }
 
